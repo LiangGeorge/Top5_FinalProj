@@ -9,7 +9,7 @@ import { Typography } from '@mui/material'
 */
 function Statusbar() {
     const { store } = useContext(GlobalStoreContext);
-    let text ="";
+    let text ="PlaceHolder";
     if (store.currentList)
         text = store.currentList.name;
     return (

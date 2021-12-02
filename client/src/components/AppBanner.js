@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
 
 export default function AppBanner() {
     const { auth } = useContext(AuthContext);
@@ -39,7 +40,7 @@ export default function AppBanner() {
         <Menu
             anchorEl={anchorEl}
             anchorOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right',
             }}
             id={menuId}
@@ -50,15 +51,16 @@ export default function AppBanner() {
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}
-        >   <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
+        >   
             <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
+            <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
         </Menu>
     );
     const loggedInMenu = 
         <Menu
             anchorEl={anchorEl}
             anchorOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right',
             }}
             id={menuId}
@@ -89,24 +91,25 @@ export default function AppBanner() {
         //console.log(auth.user)
 
         
-        return auth.user.firstName.substring(0,1) + auth.user.lastName.substring(0,1)
+        return <Avatar sx={{ bgcolor: '#d4af39'}}>{auth.user.firstName.substring(0,1) + auth.user.lastName.substring(0,1)}</Avatar>
     }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar>
+            <AppBar position="static" sx={{background: "#e0e0e0"}}>
+                <Toolbar >
                     <Typography                        
                         variant="h4"
                         noWrap
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/'>T<sup>5</sup>L</Link>
+                        <Link style={{ textDecoration: 'none', color: '#d4af39' }} to='/'>T<sup>5</sup>L</Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton
+                            variant="text"
                             size="large"
                             edge="end"
                             aria-label="account of current user"

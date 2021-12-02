@@ -8,6 +8,8 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import NavBar from './NavBar.js'
+import AppBar from '@mui/material/AppBar';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -31,7 +33,7 @@ const HomeScreen = () => {
     let listCard = "";
     if (store) {
         listCard = 
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
+            <Stack sx={{position: "absolute",left:"5%", width:"90%",bgcolor: '#c4c4c4' }}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
@@ -41,7 +43,7 @@ const HomeScreen = () => {
                     />
                 ))
             }
-            </List>;
+            </Stack>;
     }
 
     const style = {
@@ -58,17 +60,26 @@ const HomeScreen = () => {
 
 
     return (
+        
+        
         <div id="top5-list-selector">
-            <div id="list-selector-heading">
-            <Fab 
+            <NavBar/>
+            
+            <div id="list-selector-list">
+                {
+                    listCard
+                }
+            </div>
+            {/* <div id="list-selector-heading"> */}
+            {/* <Fab 
                 color="primary" 
                 aria-label="add"
                 id="add-list-button"
                 onClick={handleCreateNewList}
             >
                 <AddIcon />
-            </Fab>
-
+            </Fab> */}
+{/* 
 
             <Modal
                 aria-describedby="modal-modal-description"
@@ -96,17 +107,14 @@ const HomeScreen = () => {
                     </Stack>
                     
                 </Box>
-            </Modal>
+            </Modal> */}
 
 
-                <Typography variant="h2">Your Lists</Typography>
-            </div>
-            <div id="list-selector-list">
-                {
-                    listCard
-                }
-            </div>
-        </div>)
+            {/* <Typography variant="h2">Your Lists</Typography> */}
+            {/* </div> */}
+        </div>
+    
+        )
 }
 
 export default HomeScreen;
