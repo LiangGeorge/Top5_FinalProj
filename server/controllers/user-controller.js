@@ -79,7 +79,9 @@ logoutUser = async(req, res) => {
     }
 }
 registerUser = async (req, res) => {
-    console.log("TOIASJFIOAJSIOFJIOASFJOIAJSF")
+    
+    
+    
     try {
         const { firstName, lastName, email, password, passwordVerify } = req.body;
         if (!firstName || !lastName || !email || !password || !passwordVerify) {
@@ -116,9 +118,13 @@ registerUser = async (req, res) => {
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
         const passwordHash = await bcrypt.hash(password, salt);
+        
 
+
+        const userCounts = await User.countDocuments({})
+        const username = firstName + lastName + userCounts;
         const newUser = new User({
-            firstName, lastName, email, passwordHash
+            firstName, lastName, email, passwordHash, username
         });
         const savedUser = await newUser.save();
 
@@ -134,7 +140,8 @@ registerUser = async (req, res) => {
             user: {
                 firstName: savedUser.firstName,
                 lastName: savedUser.lastName,
-                email: savedUser.email
+                email: savedUser.email,
+                username: savedUser.username,
             }
         }).send();
     } catch (err) {

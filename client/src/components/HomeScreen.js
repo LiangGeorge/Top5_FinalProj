@@ -23,9 +23,7 @@ const HomeScreen = () => {
         store.loadAllLists();
     }, []);
 
-    function handleCreateNewList() {
-        store.createNewList();
-    }
+    
 
     function handleDeleteMarkedList(){
         store.deleteMarkedList();

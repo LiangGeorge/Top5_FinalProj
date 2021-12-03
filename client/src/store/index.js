@@ -57,7 +57,7 @@ function GlobalStoreContextProvider(props) {
         listMarkedForDeletion: null,
         allLists: [],
         //pageView: PageViewTypes.HOME,
-        pageView: (auth.isGuest)? PageViewTypes.COMM :PageViewTypes.HOME,
+        pageView: PageViewTypes.HOME,
         filter: "",
     });
     const history = useHistory();

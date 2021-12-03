@@ -55,8 +55,11 @@ export default function NavBar() {
             open={isMenuOpen}
             onClose={handleSortMenuClose}
         >   
-            <MenuItem onBlur={handleSortClose} onClick={handleSortClose}><Link to='/register/'>Publish Date (Newest)</Link></MenuItem>
-            <MenuItem onClick={handleSortClose}><Link to='/login/'>Publish Date (Oldest)</Link></MenuItem>
+            <MenuItem onBlur={handleSortClose} onClick={handleSortClose}>Publish Date (Newest)</MenuItem>
+            <MenuItem onClick={handleSortClose}>Publish Date (Oldest)</MenuItem>
+            <MenuItem onClick={handleSortClose}>Views</MenuItem>
+            <MenuItem onClick={handleSortClose}>Likes</MenuItem>
+            <MenuItem onClick={handleSortClose}>Dislikes</MenuItem>
         </Menu>
     );
 
@@ -97,11 +100,11 @@ export default function NavBar() {
                        
                     </Typography>
                     <Stack direction="row" spacing={1}>
-                        <IconButton onClick={() => handleHome()}><Home sx={{color:"black", fontSize: 40, fill:((store.pageView === PageViewTypes.HOME) ? "#d3ae37":"black") }} variant="outlined"></Home></IconButton>
+                        <IconButton disabled={auth.isGuest} onClick={() => handleHome()}><Home sx={{fontSize: 40, fill:((store.pageView === PageViewTypes.HOME) ? "#d3ae37":((auth.isGuest)? "":"black")) }} variant="outlined"></Home></IconButton>
                         {/* <IconButton color="error"><Home sx={{color:"black", fontSize: 40, fill:"red" }} variant="outlined"></Home></IconButton> */}
-                        <IconButton onClick={handleAll}><Groups sx={{color:"black", fontSize: 40, fill:((store.pageView === PageViewTypes.ALL) ? "#d3ae37":"black")}}></Groups></IconButton>
-                        <IconButton onClick={handleUser}><Person sx={{color:"black", fontSize: 40, fill:((store.pageView === PageViewTypes.USER) ? "#d3ae37":"black") }}></Person></IconButton>
-                        <IconButton onClick={handleComm}><Functions sx={{color:"black", fontSize: 40, fill:((store.pageView === PageViewTypes.COMM) ? "#d3ae37":"black") }}></Functions></IconButton>
+                        <IconButton onClick={handleAll}><Groups sx={{ fontSize: 40, fill:((store.pageView === PageViewTypes.ALL) ? "#d3ae37":"black")}}></Groups></IconButton>
+                        <IconButton onClick={handleUser}><Person sx={{fontSize: 40, fill:((store.pageView === PageViewTypes.USER) ? "#d3ae37":"black") }}></Person></IconButton>
+                        <IconButton onClick={handleComm}><Functions sx={{ fontSize: 40, fill:((store.pageView === PageViewTypes.COMM) ? "#d3ae37":"black") }}></Functions></IconButton>
                     </Stack>
                         <Box sx={{flexGrow:1}}>
                             <TextField sx={{background:"white", width:"80%"}} variant="filled" label="Search"></TextField>

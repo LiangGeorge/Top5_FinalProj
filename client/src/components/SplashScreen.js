@@ -1,11 +1,27 @@
+import { useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { useHistory } from 'react-router-dom'
+import AuthContext from '../auth';
+import { Store } from '@mui/icons-material';
+import { PageViewTypes} from '../store'
+import { GlobalStoreContext } from '../store'
 
 export default function SplashScreen() {
+    const { auth } = useContext(AuthContext);
+    const { store } = useContext(GlobalStoreContext);
+
     let buttonStyle = { backgroundColor:'#e3ee4f', color:"black"};
     const history = useHistory();
+
+    const handleGuestClose = () =>{    
+        auth.continueGuest()
+        store.changeView(PageViewTypes.COMM)
+               
+    }
+
+
     return (
         
         <div id="splash-screen">
@@ -22,12 +38,13 @@ export default function SplashScreen() {
                 </Typography>
                     
             </div>
+            
             <Stack width={'25%'} mt={"15%"} ml={'70%'} spacing={"5%"}> 
                 <Stack direction="row" justifyContent="space-between" spacing={"5%"}>
                     <Button fullWidth="true" variant="contained" sx = {buttonStyle} onClick={() => history.push("/register/")}>Create Account</Button>
                     <Button fullWidth="true" variant="contained" sx = {buttonStyle} onClick={() => history.push("/login")}>Login</Button>
                 </Stack>
-                <Button variant="contained" sx = {buttonStyle}>Continue As Guest</Button>
+                <Button variant="contained" sx = {buttonStyle} onClick={handleGuestClose}>Continue As Guest</Button>
             </Stack>
 
 

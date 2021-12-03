@@ -27,10 +27,11 @@ export default function AppBanner() {
         setAnchorEl(null);
     };
 
-    const handleGuestClose = () =>{
-        setAnchorEl(null);
-        // auth.continueAsGuest()
-    }
+    // const handleGuestClose = () =>{
+    //     setAnchorEl(null);
+    //     auth.continueGuest()
+    //     //console.log(auth.isGuest)
+    // }
 
     const handleLogout = () => {
         handleMenuClose();
@@ -59,7 +60,7 @@ export default function AppBanner() {
         >   
             <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
             <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
-            <MenuItem onClick={handleMenuClose}><Link to='/' >Continue as Guest</Link></MenuItem>
+            {/* <MenuItem onClick={handleGuestClose}><Link to='/' >Continue as Guest</Link></MenuItem> */}
         </Menu>
     );
     const loggedInMenu = 

@@ -137,8 +137,9 @@ function AuthContextProvider(props) {
             type: AuthActionType.SET_AS_GUEST,
             payload:{}
         })
+        //console.log(auth)
     }
-    
+
     auth.registerUser = async function(userData, store) {
         try{
             const response = await api.registerUser(userData);
