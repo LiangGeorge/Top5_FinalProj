@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Modal from '@mui/material/Modal';
 import Alert from '@mui/material/Alert';
+import Paper from '@mui/material/Paper';
 import { GlobalStoreContext } from '../store'
 
 export default function RegisterScreen() {
@@ -44,7 +45,9 @@ export default function RegisterScreen() {
       };
 
     return (
-            <Container component="main" maxWidth="xs">
+        <div>
+            <Grid pt={1} pb={"17vh"} sx={{width:"100%"}} component={Paper} elevation={6} square>
+            <Container component="main" maxWidth="xs" >
                 <CssBaseline />
 
 
@@ -162,5 +165,7 @@ export default function RegisterScreen() {
                 </Box>
                 <Copyright sx={{ mt: 5 }} />
             </Container>
+            </Grid>
+            </div>
     );
 }

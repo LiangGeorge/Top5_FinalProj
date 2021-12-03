@@ -6,10 +6,12 @@ import ListItem from '@mui/material/ListItem';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Accordion,Typography, Card, CardActions,CardContent, CardHeader} from '@mui/material';
+import { Accordion,Typography, Card, CardActions,CardContent, CardHeader,Stack, Link} from '@mui/material';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMore from '@mui/icons-material/ExpandMore'
+import ExpandLess from '@mui/icons-material/ExpandLess'
+import {ThumbUpOutlined, ThumbDownOutlined, DeleteOutlined} from '@mui/icons-material'
 /*
     This is a card in our list of top 5 lists. It lets select
     a list for editing and it has controls for changing its 
@@ -21,8 +23,13 @@ function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
-    const { idNamePair } = props;
+    const [expanded, setExpanded] = useState(false);
+    // const { idNamePair } = props;
+    const {top5List} = props;
 
+    function toggleExpansion(){
+        setExpanded(!expanded);
+    }
     function handleLoadList(event, id) {
         if (!event.target.disabled) {
             // CHANGE THE CURRENT LIST
@@ -40,7 +47,7 @@ function ListCard(props) {
         if (newActive) {
             store.setIsListNameEditActive();
         }
-        setText(idNamePair.name)
+        // setText(idNamePair.name)
         setEditActive(newActive);
     }
 
@@ -64,41 +71,115 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
+    let buttonStyle = {fontSize:35}
+    let comments = ["FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI"]
+
     let cardElement = 
-    <Card sx={{borderRadius: 5,border:2}}>
+    <Card key={top5List._id}sx={{borderRadius: 5,border:2}}>
         <CardHeader
        
-        title={idNamePair.name}
-        subheader="September 14, 2016"
-        />
-        <CardContent>
-            <Typography sx={{}}>{"CardPlaceholderText"}</Typography>
-        
-        </CardContent>
+        title={top5List.name}
+        subheader="By: George Liang"
+        action={
+            <div id="buttonbox" > 
+                <Stack direction="row" justifyContent="space-between" spacing={2}>
+                    <IconButton >
+                    <ThumbUpOutlined sx={buttonStyle}></ThumbUpOutlined>
+                    </IconButton>
 
-        <Accordion id={idNamePair._id}
-                key={idNamePair._id} 
-                >
-            <AccordionSummary
-            expandIcon={<ExpandMore />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-            >
-            <Box sx={{ p: 1, flexGrow: 1 }}></Box>
-            </AccordionSummary>
+                    <Typography sx={{paddingTop:1, fontSize:25}}>8M</Typography>
+
+                    <IconButton >
+                    <ThumbDownOutlined sx={buttonStyle}></ThumbDownOutlined>
+                    </IconButton>
+
+                    <Typography sx={{paddingTop:1, fontSize:25}}>55K</Typography>
+
+                    <IconButton onClick={(event)=>handleDeleteList(event,top5List._id)}>
+                    <DeleteOutlined sx={buttonStyle} ></DeleteOutlined>
+                    </IconButton>
+                </Stack>
+            </div>
+              
+        }
+        >
+        <IconButton >
+            <ExpandLess></ExpandLess>
+        </IconButton>   
+
+        </CardHeader>
+        {/* <CardContent>
+        
+        
+        </CardContent> */}
+         
+
+        <Accordion 
+            // id={idNamePair._id}
+                // key={idNamePair._id} 
+                elevation={0}
+                sx={{
+                    '&:before': {
+                        display: 'none',
+                    }
+                }}
+                expanded={expanded}>
+            <AccordionSummary>
+
+            </AccordionSummary> 
+            
             <AccordionDetails>
-            <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                malesuada lacus ex, sit amet blandit leo lobortis eget.
-            </Typography>
+                <Stack direction="row" justifyContent="space-between" spacing={2} >
+                    <Box sx={{bgcolor:"#2b2e6f", borderRadius:"7px", width:"50%", color:"#cfab37"}} pl={2} pt={2} pb={2}>
+                        <Stack spacing={1}>
+                            {top5List.items.map((itemName,index) => (
+                                <Typography key={"viewItem-"+index} sx={{fontSize:40}}>{(index + 1) + ". "+ itemName}</Typography>
+                            ))}
+                        </Stack>
+                    </Box>
+                    <Box sx={{width:"50%"}} >
+                        <Stack>
+                            <Box >
+                                <Stack  spacing={0.5} sx={{ maxHeight:300, overflowY:"scroll"}}>
+                                    {comments.map((itemName,index) => (
+                                        <Box key={index} sx={{bgcolor:"#d3ae37", borderRadius:"7px", color:"black", border: 1}} pl={2}>
+                                            <Typography sx={{marginTop:1,fontSize:13}}>{itemName}</Typography>
+                                            <Typography sx={{fontSize:25}}>{
+                                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry." +
+                                            "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
+                                            
+                                            }</Typography>
+                                        </Box>
+                                    ))}
+                                </Stack>
+                                
+                            </Box>
+                            <TextField variant="filled" label="Add Comment" sx={{ marginTop:1}}></TextField>
+                        </Stack>
+                    </Box>
+                </Stack>
+                
             </AccordionDetails>
-            <AccordionDetails>
-            <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                malesuada lacus ex, sit amet blandit leo lobortis eget.
-            </Typography>
-            </AccordionDetails>
+
+
         </Accordion>
+      
+          
+        <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+        sx={{marginLeft:2,}}
+        > 
+        {/* <Typography sx={{ fontSize:15, width:"68%"}}>Published: Jan 5, 2019</Typography> */}
+        <Link href={"/top5List/" + top5List._id } sx={{ width:"68%"}}>Edit</Link>
+        <Typography sx={{ fontSize:15}}>Views: 1,234,567</Typography>
+        <IconButton onClick={toggleExpansion}>
+            {(expanded)? <ExpandLess></ExpandLess>: <ExpandMore></ExpandMore>}
+        </IconButton>
+        </Stack>
+
     </Card>
     // cardElement =
     //     <ListItem

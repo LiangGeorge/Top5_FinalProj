@@ -19,7 +19,8 @@ const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
 
     useEffect(() => {
-        store.loadIdNamePairs();
+        // store.loadIdNamePairs();
+        store.loadAllLists();
     }, []);
 
     function handleCreateNewList() {
@@ -35,10 +36,11 @@ const HomeScreen = () => {
         listCard = 
             <Stack sx={{position: "absolute",left:"5%", width:"90%",bgcolor: '#c4c4c4' }}>
             {
-                store.idNamePairs.map((pair) => (
+                store.allLists.map((list) => (
                     <ListCard
-                        key={pair._id}
-                        idNamePair={pair}
+                        key={list._id}
+                        top5List={list}
+                        // idNamePair={pair}
                         selected={false}
                     />
                 ))
@@ -79,11 +81,11 @@ const HomeScreen = () => {
             >
                 <AddIcon />
             </Fab> */}
-{/* 
+
 
             <Modal
                 aria-describedby="modal-modal-description"
-                open={store.listMarkedForDeletion}
+                open={store.listMarkedForDeletion !== null}
                 className={"modal " + ((store.listMarkedForDeletion)? "is-visible": "")}
                 >
                     
@@ -100,14 +102,14 @@ const HomeScreen = () => {
                         variant="contained" color="error">Confirm</Button>
                         <Button 
                         onClick={() => store.unmarkListForDeletion()}
-                        style={{ "min-height": "10px"}}
+                        style={{ minHeight: "10px"}}
                         size="small"
                         variant="contained">Cancel</Button>
                         
                     </Stack>
                     
                 </Box>
-            </Modal> */}
+            </Modal>
 
 
             {/* <Typography variant="h2">Your Lists</Typography> */}

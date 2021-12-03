@@ -13,6 +13,7 @@ export const AuthActionType = {
     LOGOUT_USER: "LOGOUT_USER",
     SHOW_MODAL: "SHOW_MODAL",
     HIDE_MODAL: "HIDE_MODAL",
+    SET_AS_GUEST: "SET_AS_GUEST",
 }
 
 function AuthContextProvider(props) {
@@ -21,6 +22,7 @@ function AuthContextProvider(props) {
         loggedIn: false,
         showModal: false,
         modalMSG: null,
+        isGuest: false
     });
     const history = useHistory();
 
@@ -37,6 +39,7 @@ function AuthContextProvider(props) {
                     loggedIn: payload.loggedIn,
                     showModal: false,
                     modalMSG: null,
+                    isGuest: auth.isGuest,
                 });
             }
             case AuthActionType.REGISTER_USER: {
@@ -45,6 +48,7 @@ function AuthContextProvider(props) {
                     loggedIn: true,
                     showModal: false,
                     modalMSG: null,
+                    isGuest: false,
                 })
             }
             case AuthActionType.SET_LOGGED_IN: {
@@ -53,6 +57,7 @@ function AuthContextProvider(props) {
                     loggedIn: payload.loggedIn,
                     showModal: false,
                     modalMSG: null,
+                    isGuest: false,
                 })
             }
             case AuthActionType.LOGOUT_USER: {
@@ -61,6 +66,7 @@ function AuthContextProvider(props) {
                 loggedIn: false,
                 showModal: false,
                 modalMSG: null,
+                isGuest: false
                 })
             }
             case AuthActionType.SHOW_MODAL: {
@@ -69,6 +75,7 @@ function AuthContextProvider(props) {
                     loggedIn: false,
                     showModal: true,
                     modalMSG: payload.modalMSG,
+                    isGuest: auth.isGuest
 
                 })
             }
@@ -78,6 +85,16 @@ function AuthContextProvider(props) {
                     loggedIn: false,
                     showModal: false,
                     modalMSG: null,
+                    isGuest: auth.isGuest
+                })
+            }
+            case AuthActionType.SET_AS_GUEST: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    showModal: false,
+                    modalMSG: null,
+                    isGuest: true,
                 })
             }
             default:
@@ -115,6 +132,12 @@ function AuthContextProvider(props) {
         //}   
     }
 
+    auth.continueGuest = function(){
+        authReducer({
+            type: AuthActionType.SET_AS_GUEST,
+            payload:{}
+        })
+    }
     
     auth.registerUser = async function(userData, store) {
         try{

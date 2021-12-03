@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import AccountCircle from '@mui/icons-material/AccountCircleOutlined';
 import Avatar from '@mui/material/Avatar';
 
 export default function AppBanner() {
@@ -26,6 +26,11 @@ export default function AppBanner() {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+
+    const handleGuestClose = () =>{
+        setAnchorEl(null);
+        // auth.continueAsGuest()
+    }
 
     const handleLogout = () => {
         handleMenuClose();
@@ -54,6 +59,7 @@ export default function AppBanner() {
         >   
             <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
             <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
+            <MenuItem onClick={handleMenuClose}><Link to='/' >Continue as Guest</Link></MenuItem>
         </Menu>
     );
     const loggedInMenu = 
@@ -86,7 +92,7 @@ export default function AppBanner() {
     
     function getAccountMenu(loggedIn) {
         if (!loggedIn){
-            return <AccountCircle />;
+            return <AccountCircle sx={{color:"black", fontSize: 40 }}/>;
         }
         //console.log(auth.user)
 
