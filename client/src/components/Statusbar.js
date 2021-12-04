@@ -24,7 +24,7 @@ function Statusbar() {
     if (store.currentList)
         text = store.currentList.name;
 
-    if (store.pageView === PageViewTypes.HOME && auth.loggedIn){
+    if (store.pageView === PageViewTypes.HOME && auth.loggedIn && store.currentList == null){
         statusInternal = 
         <div id="top5-statusbar">
             <IconButton
@@ -37,6 +37,22 @@ function Statusbar() {
                 <AddIcon sx={{fontSize: 50}}  />
             </IconButton> 
             <Typography variant="h4">Your Lists</Typography>    
+        </div>
+    }
+    else if (store.currentList !== null && auth.loggedIn){
+        statusInternal = 
+        <div id="top5-statusbar">
+            <IconButton
+                disabled={true}
+                // color="primary" 
+                // aria-label="add"
+                // id="add-list-button"
+                // sx={{color:"black"}}
+                onClick={handleCreateNewList}
+            >
+                <AddIcon sx={{color: "gray", fontSize: 50}}  />
+            </IconButton> 
+            <Typography sx={{color: "gray"}} variant="h4">Your Lists</Typography>    
         </div>
     }
     else{

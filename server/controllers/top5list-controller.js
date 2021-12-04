@@ -1,5 +1,15 @@
 const Top5List = require('../models/top5list-model');
 const User = require('../models/user-model')
+
+const SortingTypes = {
+    NONE: "NONE",
+    DATEA: "DATEA",
+    DATED: "DATED",
+    VIEWS: "VIEWS",
+    LIKES: "LIKES",
+    DISLIKES: "DISLIKES",
+}
+
 createTop5List = (req, res) => {
     
     const body = req.body;
@@ -44,14 +54,14 @@ updateTop5List = async (req, res) => {
     }
 
 
-    let userObject = await User.findById({ _id: req.userId}, (err) => {
-        if (err){
-            return res.status(400).json({success: false, error: err})
-        }
-    })
+    // let userObject = await User.findById({ _id: req.userId}, (err) => {
+    //     if (err){
+    //         return res.status(400).json({success: false, error: err})
+    //     }
+    // })
     // console.log(userObject)
 
-    let userEmail = userObject.email
+    // let userEmail = userObject.email
 
     Top5List.findOne({ _id: req.params.id }, (err, top5List) => {
         console.log("top5List found: " + JSON.stringify(top5List));
@@ -62,9 +72,13 @@ updateTop5List = async (req, res) => {
             })
         }
         // console.log(body.ownerEmail)
-        if (top5List.ownerEmail === userEmail){
+        // if (top5List.ownerEmail === userEmail){
             top5List.name = body.name
             top5List.items = body.items
+            top5List.views = body.views
+            top5List.likers = body.likers
+            top5List.dislikers = body.dislikers
+            top5List.comments = body.comments
             top5List
                 .save()
                 .then(() => {
@@ -82,9 +96,9 @@ updateTop5List = async (req, res) => {
                         message: 'Top 5 List not updated!',
                     })
                 })
-        }else{
-            return res.status(401).json({ success: false, error: err });
-        }
+        // }else{
+        //     return res.status(401).json({ success: false, error: err });
+        // }
         
     })
 }
@@ -141,18 +155,84 @@ getTop5ListById = async (req, res) => {
     }).catch(err => console.log(err))
 }
 getTop5Lists = async (req, res) => {
-    await Top5List.find({}, (err, top5Lists) => {
-        if (err) {
-            return res.status(400).json({ success: false, error: err })
-        }
-        // if (!top5Lists.length) {
-        //     return res
-        //         .status(404)
-        //         .json({ success: false, error: `Top 5 Lists not found` })
-        // }
-        //console.log(top5Lists)
-        return res.status(200).json({ success: true, data: top5Lists })
-    }).catch(err => console.log(err))
+    console.log(req.query)
+    let username = req.query.username;
+    let sortStr = req.query.sort;
+    console.log(req.query.username.length)
+    console.log(sortStr)
+    let sortObj = null;
+    /* DATEA: "DATEA",
+    DATED: "DATED",
+    VIEWS: "VIEWS",
+    LIKES: "LIKES",
+    DISLIKES: "DISLIKES",*/
+    switch (sortStr) {
+        case SortingTypes.NONE: 
+            sortObj = {
+               
+            }
+            break;
+        case SortingTypes.DATED:
+            //ALl lists and any list names matching the text
+            sortObj = {
+               
+            }
+            break
+        case SortingTypes.DATED:
+            //ALl lists and any list names matching the text
+            sortObj = {
+               
+            }
+            
+            break
+        case SortingTypes.VIEWS:
+            //User has to match the searchText
+            sortObj = {
+               views: 'desc'
+            }
+            break
+        case SortingTypes.LIKES:
+            //An entirely different method has to be called her. Get Community lists. 
+            sortObj = {
+               likers:-1
+            }
+            break
+        case SortingTypes.DISLIKES:
+            //An entirely different method has to be called her. Get Community lists. 
+            sortObj = {
+               dislikers:-1
+            }
+            break
+        default:
+            sortObj = {
+            }
+    }
+    console.log(sortObj)
+    if (username.length !== 0){
+        
+        await Top5List.find({ ownerUsername: username},null,{sort: sortObj}, (err, top5Lists) => {
+            if (err){
+                return res.status(400).json({ success: false, error: err })
+            }
+            return res.status(200).json({ success: true, data: top5Lists})
+        }).catch(err => console.log(err))
+        
+    }
+    else{
+        await Top5List.find({},null,{sort: sortObj}, (err, top5Lists) => {
+            if (err) {
+                return res.status(400).json({ success: false, error: err })
+            }
+            // if (!top5Lists.length) {
+            //     return res
+            //         .status(404)
+            //         .json({ success: false, error: `Top 5 Lists not found` })
+            // }
+            //console.log(top5Lists)
+            return res.status(200).json({ success: true, data: top5Lists })
+        }).catch(err => console.log(err))
+    }
+   
 }
 getTop5ListPairs = async (req, res) => {
     console.log("Retrieving top5list pairs")
@@ -183,11 +263,13 @@ getTop5ListPairs = async (req, res) => {
     }).catch(err => console.log(err))
 }
 
+
+
 module.exports = {
     createTop5List,
     updateTop5List,
     deleteTop5List,
     getTop5Lists,
     getTop5ListPairs,
-    getTop5ListById
+    getTop5ListById,
 }

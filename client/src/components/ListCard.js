@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
@@ -20,14 +21,20 @@ import {ThumbUpOutlined, ThumbDownOutlined, DeleteOutlined} from '@mui/icons-mat
     @author McKilla Gorilla
 */
 function ListCard(props) {
+    const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
+    const [flopper, setFlopper] = useState(false);
     const [text, setText] = useState("");
     const [expanded, setExpanded] = useState(false);
     // const { idNamePair } = props;
     const {top5List} = props;
 
     function toggleExpansion(){
+        if (!expanded){
+            top5List.views += 1;
+            store.updateCurrentList(top5List)
+        }
         setExpanded(!expanded);
     }
     function handleLoadList(event, id) {
@@ -56,47 +63,102 @@ function ListCard(props) {
         store.markListForDeletion(id);
     }
 
-    function handleOnBlur(event){
-        let id = event.target.id.substring("list-".length);
-        store.changeListName(id, text);
-        toggleEdit();
-    }
-    function handleKeyPress(event) {
-        if (event.code === "Enter") {
-            let id = event.target.id.substring("list-".length);
-            store.changeListName(id, text);
-            toggleEdit();
+    function addLike(){
+        if (auth.isGuest || top5List.likers.includes(auth.user.username)){
+            return;
+        }else{
+            top5List.likers.push(auth.user.username);
+            store.updateCurrentList(top5List)
+            setFlopper(true)
         }
     }
-    function handleUpdateText(event) {
-        setText(event.target.value);
+
+
+    function addLike(){
+        if (top5List.likers.includes(auth.user.username)){
+            top5List.likers.splice(top5List.likers.indexOf(auth.user.username),1)
+            
+        }else if (top5List.dislikers.includes(auth.user.username)){
+            top5List.likers.push(auth.user.username);
+            top5List.dislikers.splice(top5List.dislikers.indexOf(auth.user.username),1)
+        }else{
+            top5List.likers.push(auth.user.username);
+        }
+        store.updateCurrentList(top5List)
+        setFlopper(!flopper)
     }
-    let buttonStyle = {fontSize:35}
+
+    function addDislike(){
+        if (top5List.dislikers.includes(auth.user.username)){
+            top5List.dislikers.splice(top5List.dislikers.indexOf(auth.user.username),1)
+            
+        }else if (top5List.likers.includes(auth.user.username)){
+            top5List.dislikers.push(auth.user.username);
+            top5List.likers.splice(top5List.likers.indexOf(auth.user.username),1)
+        }else{
+            top5List.dislikers.push(auth.user.username);
+        }
+        store.updateCurrentList(top5List)
+        setFlopper(!flopper)
+    }
+
+    function addComment(event){
+        if (event.key == "Enter" && event.target.value.length !== 0){
+            event.target.value=""
+            top5List.comments.push({"body": text, "owner": auth.user.username})
+            store.updateCurrentList(top5List)
+            console.log("Reached Here")
+            setText("")
+        }
+       
+    }
+
+    
+
+    // function addDislike(){
+
+    // }
+    // function handleOnBlur(event){
+    //     let id = event.target.id.substring("list-".length);
+    //     store.changeListName(id, text);
+    //     toggleEdit();
+    // }
+    // function handleKeyPress(event) {
+    //     if (event.code === "Enter") {
+    //         let id = event.target.id.substring("list-".length);
+    //         store.changeListName(id, text);
+    //         toggleEdit();
+    //     }
+    // }
+    // function handleUpdateText(event) {
+    //     setText(event.target.value);
+    // }
+    // let buttonStyle = {fontSize:35}
     let comments = ["FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI"]
 
     let cardElement = 
-    <Card key={top5List._id}sx={{borderRadius: 5,border:2}}>
+    <Card key={"listcard-" + top5List._id}sx={{borderRadius: 5,border:2}}>
         <CardHeader
        
         title={top5List.name}
-        subheader="By: George Liang"
+        subheader={"By: " + top5List.ownerUsername}
         action={
             <div id="buttonbox" > 
                 <Stack direction="row" justifyContent="space-between" spacing={2}>
-                    <IconButton >
-                    <ThumbUpOutlined sx={buttonStyle}></ThumbUpOutlined>
+                    <IconButton onClick={addLike}>
+                    <ThumbUpOutlined sx={{color: (top5List.likers.includes(auth.user.username))?"blue":"black" ,fontSize:35}}></ThumbUpOutlined>
                     </IconButton>
 
-                    <Typography sx={{paddingTop:1, fontSize:25}}>8M</Typography>
+                    <Typography sx={{paddingTop:1, fontSize:25}}>{top5List.likers.length}</Typography>
 
-                    <IconButton >
-                    <ThumbDownOutlined sx={buttonStyle}></ThumbDownOutlined>
+                    <IconButton onClick={addDislike}>
+                    <ThumbDownOutlined sx={{color: (top5List.dislikers.includes(auth.user.username))?"red":"black" ,fontSize:35}}></ThumbDownOutlined>
                     </IconButton>
 
-                    <Typography sx={{paddingTop:1, fontSize:25}}>55K</Typography>
+                    <Typography sx={{paddingTop:1, fontSize:25}}>{top5List.dislikers.length}</Typography>
 
                     <IconButton onClick={(event)=>handleDeleteList(event,top5List._id)}>
-                    <DeleteOutlined sx={buttonStyle} ></DeleteOutlined>
+                    <DeleteOutlined sx={{fontSize:35}} ></DeleteOutlined>
                     </IconButton>
                 </Stack>
             </div>
@@ -114,7 +176,7 @@ function ListCard(props) {
         </CardContent> */}
          
 
-        <Accordion 
+        <Accordion
             // id={idNamePair._id}
                 // key={idNamePair._id} 
                 elevation={0}
@@ -141,20 +203,16 @@ function ListCard(props) {
                         <Stack>
                             <Box >
                                 <Stack  spacing={0.5} sx={{ maxHeight:300, overflowY:"scroll"}}>
-                                    {comments.map((itemName,index) => (
+                                    {top5List.comments.map((comment,index) => (
                                         <Box key={index} sx={{bgcolor:"#d3ae37", borderRadius:"7px", color:"black", border: 1}} pl={2}>
-                                            <Typography sx={{marginTop:1,fontSize:13}}>{itemName}</Typography>
-                                            <Typography sx={{fontSize:25}}>{
-                                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry." +
-                                            "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
-                                            
-                                            }</Typography>
+                                            <Typography sx={{marginTop:1,fontSize:13}}>{comment.owner}</Typography>
+                                            <Typography sx={{fontSize:25}}>{comment.body}</Typography>
                                         </Box>
                                     ))}
                                 </Stack>
                                 
                             </Box>
-                            <TextField variant="filled" label="Add Comment" sx={{ marginTop:1}}></TextField>
+                            <TextField onChange={(event) => setText(event.target.value)}  onKeyUp={(event) => addComment(event)} changevariant="filled" label="Add Comment"  sx={{ marginTop:1}}></TextField>
                         </Stack>
                     </Box>
                 </Stack>
@@ -167,17 +225,21 @@ function ListCard(props) {
           
         <Stack
         direction="row"
-        justifyContent="space-between"
+        justifyContent="left"
         alignItems="center"
         spacing={2}
         sx={{marginLeft:2,}}
         > 
         {/* <Typography sx={{ fontSize:15, width:"68%"}}>Published: Jan 5, 2019</Typography> */}
-        <Link href={"/top5List/" + top5List._id } sx={{ width:"68%"}}>Edit</Link>
-        <Typography sx={{ fontSize:15}}>Views: 1,234,567</Typography>
-        <IconButton onClick={toggleExpansion}>
-            {(expanded)? <ExpandLess></ExpandLess>: <ExpandMore></ExpandMore>}
-        </IconButton>
+        <Link href={"/top5List/" + top5List._id } sx={{ width:"100%"}}>Edit</Link>
+        <Stack direction = "row" >
+            <Typography pt={1} sx={{fontSize:15 }}>{"Views: "}</Typography>
+            <Typography pl={1} pt={1} pr={20}sx={{  color:"red", fontSize:15}}>{top5List.views}</Typography>
+            <IconButton onClick={toggleExpansion}>
+                {(expanded)? <ExpandLess></ExpandLess>: <ExpandMore></ExpandMore>}
+            </IconButton>
+        </Stack>
+
         </Stack>
 
     </Card>

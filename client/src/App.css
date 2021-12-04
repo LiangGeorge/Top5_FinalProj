@@ -99,9 +99,9 @@ body {
 }
 
 #splash-screen-welc{
-  position: absolute;
+  position: relative;
   color: #e3ee4f;
-  top: 65%;
+  top: 15%;
   margin-right:50%;
   /*
   margin-top: 12%; */

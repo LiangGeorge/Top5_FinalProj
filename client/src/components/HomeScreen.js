@@ -4,26 +4,37 @@ import ListCard from './ListCard.js'
 import { Fab, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import List from '@mui/material/List';
+import { PageViewTypes, SortingTypes} from '../store'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import NavBar from './NavBar.js'
 import AppBar from '@mui/material/AppBar';
+import AuthContext from '../auth'
 /*
     This React component lists all the top5 lists in the UI.
     
     @author McKilla Gorilla
 */
 const HomeScreen = () => {
+    const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
-
+    //No rerender because the child is the only component that changes from a selection on NavBar
     useEffect(() => {
         // store.loadIdNamePairs();
-        store.loadAllLists();
-    }, []);
+        console.log(auth.loggedIn)
+        
+        store.loadAllLists()
+        // if (auth.loggedIn){
+        //     console.log("FSJAOIJFIOAJSFOIJOISJ")
+        //     store.changeView(PageViewTypes.HOME);
+        // }else{
+        //     store.changeView(PageViewTypes.COMM);
+        // }
 
-    
+    }, [store.pageView, store.sort]);
+
 
     function handleDeleteMarkedList(){
         store.deleteMarkedList();
@@ -58,7 +69,7 @@ const HomeScreen = () => {
         p: 4,
       };
 
-
+    // console.log("Rendering")
     return (
         
         
@@ -94,7 +105,7 @@ const HomeScreen = () => {
                     </Typography>
                     <Stack direction="row" alignItems="stretch" spacing={3} sx = {{ ml: 13}}>
                     <Button 
-                        onClick={() => handleDeleteMarkedList()}
+                        onClick={handleDeleteMarkedList}
                         size="small"
                         
                         variant="contained" color="error">Confirm</Button>

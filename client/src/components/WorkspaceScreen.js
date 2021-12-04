@@ -27,21 +27,34 @@ function WorkspaceScreen() {
         store.setCurrentList(idFromUrl)
     }
     , []);
-    
     let editItems = "";
     let listName = ""
+
+    let listCopy = null;
+
+    function handleItemChange(event,index) {
+        listCopy.items[index] = event.target.value;
+        console.log(listCopy)
+    }
+    
+    function handleTitleChange(event) {
+        listCopy.name = event.target.value;
+    }
+    
     if (store.currentList) {
+        listCopy= {...store.currentList};
+        //console.log(listCopy)
         editItems = 
             <Stack sx={{width:"100%"}} spacing={2.2}>
                 {
                 store.currentList.items.map((item,index) => (
-                    <TextField id={"top5text-" + index} key={"top5text-" + index} size="small" sx={{width:"99.5%", bgcolor:"#d3ae37", marginTop:1.25}} inputProps={{style: {fontSize: 25}}} defaultValue={item}> </TextField>
+                    <TextField id={"top5text-" + index} key={"top5text-" + index} size="small" sx={{width:"99.5%", bgcolor:"#d3ae37", marginTop:1.25}} inputProps={{style: {fontSize: 25}}} defaultValue={item} onChange={(event) => handleItemChange(event,index) } > </TextField>
                 ))
                 
                 }
             </Stack>
             ;
-        listName = <TextField  size="small" defaultValue={store.currentList.name} sx={{width:"50%", backgroundColor:"white"}}></TextField>
+        listName = <TextField id={"top5title" + store.currentList._id} size="small" defaultValue={store.currentList.name} sx={{width:"50%", backgroundColor:"white"}} onChange={(event) => handleTitleChange(event)}></TextField>
             // <List id="edit-items" sx={{ width: '100%', bgcolor: 'background.paper' }}>
             //     {
             //         store.currentList.items.map((item, index) => (
@@ -105,7 +118,7 @@ function WorkspaceScreen() {
                             <Stack  pt={2} direction="row"  height={60}>
                                 <Stack  width="50%"></Stack>
                                 <Stack width="50%" direction="row" spacing={2} justifyContent="space-between">
-                                    <Button fullWidth="true" variant="filled" size="large" sx={{ border:2 , outlineColor:"black", fontSize:40 ,bgcolor:"#dddddd"}}>Save</Button>
+                                    <Button fullWidth="true" variant="filled" size="large" onClick={() => store.updateCurrentList(listCopy)} sx={{ border:2 , outlineColor:"black", fontSize:40 ,bgcolor:"#dddddd"}}>Save</Button>
                                     <Button fullWidth="true" variant="filled" size="large" sx={{border:2 , outlineColor:"black", fontSize:40, bgcolor:"#dddddd"}}>Publish</Button>
                                 </Stack>
                             </Stack>

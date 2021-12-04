@@ -43,7 +43,8 @@ loginUser = async (req, res) => {
             user: {
                 firstName: existingUser.firstName,
                 lastName: existingUser.lastName,
-                email: existingUser.email
+                email: existingUser.email,
+                username: existingUser.username,
             }
         }).send();
 
@@ -62,7 +63,8 @@ getLoggedIn = async (req, res) => {
             user: {
                 firstName: loggedInUser.firstName,
                 lastName: loggedInUser.lastName,
-                email: loggedInUser.email
+                email: loggedInUser.email,
+                username: loggedInUser.username,
             }
         });
     })
@@ -121,7 +123,7 @@ registerUser = async (req, res) => {
         
 
 
-        const userCounts = await User.countDocuments({})
+        const userCounts = await User.estimatedDocumentCount({})
         const username = firstName + lastName + userCounts;
         const newUser = new User({
             firstName, lastName, email, passwordHash, username

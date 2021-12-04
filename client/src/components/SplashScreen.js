@@ -39,7 +39,7 @@ export default function SplashScreen() {
                     
             </div>
             
-            <Stack width={'25%'} mt={"15%"} ml={'70%'} spacing={"5%"}> 
+            <Stack position="relative" width={'25%'}  ml={'70%'} spacing={"5%"}> 
                 <Stack direction="row" justifyContent="space-between" spacing={"5%"}>
                     <Button fullWidth="true" variant="contained" sx = {buttonStyle} onClick={() => history.push("/register/")}>Create Account</Button>
                     <Button fullWidth="true" variant="contained" sx = {buttonStyle} onClick={() => history.push("/login")}>Login</Button>
