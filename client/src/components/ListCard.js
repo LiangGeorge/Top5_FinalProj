@@ -35,7 +35,7 @@ function ListCard(props) {
     //const history = useHistory();
 
     function toggleExpansion(){
-        if (!expanded){
+        if (!expanded && top5List.datePublished !== null){
             top5List.views += 1;
             store.updateCurrentList(top5List)
         }
@@ -109,7 +109,7 @@ function ListCard(props) {
     function addComment(event){
         if (event.key == "Enter" && event.target.value.length !== 0){
             event.target.value=""
-            top5List.comments.push({"body": text, "owner": auth.user.username})
+            top5List.comments.unshift({"body": text, "owner": auth.user.username})
             store.updateCurrentList(top5List)
             console.log("Reached Here")
             setText("")
@@ -147,7 +147,7 @@ function ListCard(props) {
     
     let editOrPublished = (top5List.datePublished !== null)? 
     <Stack direction = "row" width="100%" justifyContent="left">
-        <Typography sx={{ fontSize:15}}>{"Published: "}</Typography>  
+        <Typography sx={{ fontSize:15}}>{(top5List.ownerName !== undefined)?"Published: ": "Updated: "}</Typography>  
         <Typography sx={{ fontSize:15, width:"100%", color:"green"}}>{displayDate}</Typography>
     </Stack>
     : 
@@ -157,16 +157,31 @@ function ListCard(props) {
     onClick={()=>store.setCurrentList(top5List._id)} sx={{ cursor:"pointer", width:"100%"}}>Edit</Link>;
 
     // console.log(typeof(Date.now()))
+    let itemCard = null
+        if (top5List.ownerUsername !== undefined){
+            itemCard = top5List.items.map((itemName,index) => (
+                <Typography key={"viewItem-"+index} sx={{fontSize:40}}>{(index + 1) + ". "+ itemName}</Typography>
+            ))
+        }else{
+            itemCard = top5List.items.map((itemName,index) => (
+                <div key={"card-div" + index}>
+                    <Typography key={"viewItem-"+index} sx={{fontSize:30}}>{(index + 1) + ". "+ itemName["item"]}</Typography>
+                    <Typography pl={5} key={"viewVotes-"+index} sx={{fontSize:15}}>{ "(" + itemName["votes"] + " Votes)"}</Typography>
+                </div>
+            ))
+        }
+        
+        
     
     let cardElement = 
-    <Card key={"listcard-" + top5List._id}sx={{borderRadius: 5,border:2}}>
+    <Card key={"listcard-" + top5List._id}sx={{bgcolor: (top5List.datePublished !== null)? "#d4d4f6 ": "#fffff1", borderRadius: 5,border:2}}>
         <CardHeader
        
         title={top5List.name}
-        subheader={"By: " + top5List.ownerUsername}
+        subheader={(top5List.ownerUsername !== undefined)?"By: " + top5List.ownerUsername : ""}
         action={
             <div id="buttonbox" > 
-                <Stack direction="row" justifyContent="space-between" spacing={2}>
+                <Stack direction="row" justifyContent="space-between" spacing={2} >
                     <IconButton disabled={auth.isGuest} onClick={addLike}>
                     <ThumbUpOutlined sx={{color: (auth.isGuest)? "gray" : ((top5List.likers.includes(auth.user.username))?"blue":"black") ,fontSize:35}}></ThumbUpOutlined>
                     </IconButton>
@@ -192,10 +207,8 @@ function ListCard(props) {
         </IconButton>   
 
         </CardHeader>
-        {/* <CardContent>
         
         
-        </CardContent> */}
          
 
         <Accordion
@@ -212,13 +225,12 @@ function ListCard(props) {
 
             </AccordionSummary> 
             
-            <AccordionDetails>
+            <AccordionDetails sx={{bgcolor: (top5List.datePublished !== null)? "#d4d4f6 ": "#fffff1"}}>
                 <Stack direction="row" justifyContent="space-between" spacing={2} >
                     <Box sx={{bgcolor:"#2b2e6f", borderRadius:"7px", width:"50%", color:"#cfab37"}} pl={2} pt={2} pb={2}>
                         <Stack spacing={1}>
-                            {top5List.items.map((itemName,index) => (
-                                <Typography key={"viewItem-"+index} sx={{fontSize:40}}>{(index + 1) + ". "+ itemName}</Typography>
-                            ))}
+                            {itemCard
+                           }
                         </Stack>
                     </Box>
                     <Box sx={{width:"50%"}} >
@@ -226,7 +238,7 @@ function ListCard(props) {
                             <Box >
                                 <Stack  spacing={0.5} sx={{ maxHeight:300, overflowY:"scroll"}}>
                                     {top5List.comments.map((comment,index) => (
-                                        <Box key={index} sx={{bgcolor:"#d3ae37", borderRadius:"7px", color:"black", border: 1}} pl={2}>
+                                        <Box key={"comment" + index} sx={{bgcolor:"#d3ae37", borderRadius:"7px", color:"black", border: 1}} pl={2}>
                                             <Typography sx={{marginTop:1,fontSize:13}}>{comment.owner}</Typography>
                                             <Typography sx={{fontSize:25}}>{comment.body}</Typography>
                                         </Box>
@@ -234,7 +246,9 @@ function ListCard(props) {
                                 </Stack>
                                 
                             </Box>
-                            <TextField disabled={auth.isGuest} onChange={(event) => setText(event.target.value)}  onKeyUp={(event) => addComment(event)} changevariant="filled" label="Add Comment"  sx={{ marginTop:1}}></TextField>
+                            <Stack>
+                                <TextField  disabled={auth.isGuest || (top5List.datePublished === null)} onChange={(event) => setText(event.target.value)}  onKeyUp={(event) => addComment(event)} changevariant="filled" label="Add Comment"  sx={{ background:"white",marginTop:1}}></TextField>
+                            </Stack>
                         </Stack>
                     </Box>
                 </Stack>

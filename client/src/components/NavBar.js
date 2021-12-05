@@ -128,7 +128,7 @@ export default function NavBar() {
 
     function handleKeyPress(event){
         if (store.pageView === PageViewTypes.USER || store.pageView === PageViewTypes.COMM){
-            if (event.key === "Enter" && event.target.value.length !== 0){
+            if (event.key === "Enter"){
                 store.loadAllLists();
             }
         }

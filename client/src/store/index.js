@@ -344,7 +344,7 @@ function GlobalStoreContextProvider(props) {
                     payload = {
                         params:{
                             username: auth.user.username,
-                            // username: "",
+                            // username: "",x
                             sort: store.sort,
                             filter: store.filter,
                             filterExactMatch: false,
@@ -379,7 +379,12 @@ function GlobalStoreContextProvider(props) {
                     break
                 case PageViewTypes.COMM:
                     //An entirely different method has to be called her. Get Community lists. 
-                    return
+                    payload = {
+                        params:{
+                            sort: store.sort,
+                            filter: store.filter,
+                        }
+                    }
                     break
     
                 default:
@@ -396,16 +401,20 @@ function GlobalStoreContextProvider(props) {
             //console.log("AFMIOAMFOPISAMFIOPMASPIOMFIPASMFPIOMASPOFAPOSFMPOMSAFMP")
             // console.log(response.data.data)
             let lists = response.data.data
-            if (store.sort === SortingTypes.DATED){
+            if (store.sort === SortingTypes.DATED || store.sort === SortingTypes.DATEA){
                 let nullCount = 0;
+                
+
                 for (let i = 0; i < lists.length; i++){
                     if (lists[i].datePublished === null){
                         nullCount += 1
                     }
                 }
+                console.log(nullCount)
                 if (lists.length !== 0 && nullCount !== 0){
                     while(lists[0].datePublished === null){
                         let removeList = (lists.splice(0,1))[0]
+                        console.log(removeList)
                         lists.push(removeList);
                     }
                 }
@@ -526,22 +535,6 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    // // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
-    // store.loadIdNamePairs = async function () {
-    //     console.log("Loading by IDNAME")
-    //     console.log(auth.user.email)
-    //     const response = await api.getTop5ListPairs(auth.user.email);
-    //     if (response.data.success) {
-    //         let pairsArray = response.data.idNamePairs;
-    //         storeReducer({
-    //             type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-    //             payload: pairsArray
-    //         });
-    //     }
-    //     else {
-    //         console.log("API FAILED TO GET THE LIST PAIRS");
-    //     }
-    // }
 
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
     // OF A LIST, WHICH INCLUDES USING A VERIFICATION MODAL. THE
@@ -604,59 +597,11 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    // store.getItemsById = async function(id){
-    //     let response = await api.getTop5ListById(id);
-    //     if (response.data.success) {
-    //         let items = response.data.top5List.items;
-    //         //console.log(items)
-    //         return items;
-    //     }
-    //     return null;
-    // }
-
-    // store.addMoveItemTransaction = function (start, end) {
-    //     let transaction = new MoveItem_Transaction(store, start, end);
-    //     tps.addTransaction(transaction);
-    // }
-
-    // store.addUpdateItemTransaction = function (index, newText) {
-    //     let oldText = store.currentList.items[index];
-    //     let transaction = new UpdateItem_Transaction(store, index, oldText, newText);
-    //     tps.addTransaction(transaction);
-    // }
-
-    // store.moveItem = function (start, end) {
-    //     start -= 1;
-    //     end -= 1;
-    //     if (start < end) {
-    //         let temp = store.currentList.items[start];
-    //         for (let i = start; i < end; i++) {
-    //             store.currentList.items[i] = store.currentList.items[i + 1];
-    //         }
-    //         store.currentList.items[end] = temp;
-    //     }
-    //     else if (start > end) {
-    //         let temp = store.currentList.items[start];
-    //         for (let i = start; i > end; i--) {
-    //             store.currentList.items[i] = store.currentList.items[i - 1];
-    //         }
-    //         store.currentList.items[end] = temp;
-    //     }
-
-    //     // NOW MAKE IT OFFICIAL
-    //     store.updateCurrentList();
-    // }
-
-    // store.updateItem = function (index, newItem) {
-    //     store.currentList.items[index] = newItem;
-    //     store.updateCurrentList();
-    // }
-    
-    
 
     store.updateCurrentList = async function (top5List) {
         // const response = await api.updateTop5ListById(store.currentList._id, top5List);
         console.log(top5List)
+        
         const response = await api.updateTop5ListById(top5List._id, top5List);
         
         if (response.data.success) {
@@ -671,37 +616,7 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    // store.undo = function () {
-    //     tps.undoTransaction();
-    // }
-
-    // store.redo = function () {
-    //     tps.doTransaction();
-    // }
-
-    // store.canUndo = function() {
-    //     return tps.hasTransactionToUndo();
-    // }
-
-    // store.canRedo = function() {
-    //     return tps.hasTransactionToRedo();
-    // }
-
-    // // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME
-    // store.setIsListNameEditActive = function () {
-    //     storeReducer({
-    //         type: GlobalStoreActionType.SET_LIST_NAME_EDIT_ACTIVE,
-    //         payload: null
-    //     });
-    // }
-
-    // // THIS FUNCTION ENABLES THE PROCESS OF EDITING AN ITEM
-    // store.setIsItemEditActive = function () {
-    //     storeReducer({
-    //         type: GlobalStoreActionType.SET_ITEM_EDIT_ACTIVE,
-    //         payload: null
-    //     });
-    // }
+    
 
     return (
         <GlobalStoreContext.Provider value={{

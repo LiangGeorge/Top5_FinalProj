@@ -14,6 +14,9 @@ router.get('/top5listsE/', Top5ListController.checkExist)
 
 
 
+// router.get('/commLists/', Top5Controller.getCommLists)
+// router.put('/top5list/:id')
+
 router.post('/register', UserController.registerUser)
 router.get('/loggedIn', UserController.getLoggedIn)
 router.post('/login', UserController.loginUser)
