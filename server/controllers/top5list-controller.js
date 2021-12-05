@@ -77,6 +77,7 @@ updateTop5List = async (req, res) => {
             top5List.items = body.items
             top5List.views = body.views
             top5List.likers = body.likers
+            top5List.datePublished = body.datePublished
             top5List.dislikers = body.dislikers
             top5List.comments = body.comments
             top5List
@@ -102,7 +103,27 @@ updateTop5List = async (req, res) => {
         
     })
 }
+checkExist = async (req, res) =>{
 
+    searchObj = {$regex:"^" + req.query.name + "$" , $options:"i"}
+    console.log("REQUEST QUERY NAME: " + req.query.name)
+    console.log(req.query)
+    // console.log(req)
+    await Top5List.exists({ name: searchObj, ownerUsername: req.query.username} , (err,ex) => {
+        console.log("CHECKING EXIST OVER HERE")
+        if (err){
+            console.log("error out")
+            console.log(err)
+            return res.status(404).json({
+                err,
+                message: 'Error Querying',
+            })
+        }else{
+            console.log(ex)
+            return res.status(200).json({ success: true, data:ex })
+        }
+    })
+}
 deleteTop5List = async (req, res) => {
 
     let userObject = await User.findById({ _id: req.userId}, (err) => {
@@ -141,17 +162,17 @@ getTop5ListById = async (req, res) => {
     })
     //console.log(userObject)
 
-    let userEmail = userObject.email
+    // let userEmail = userObject.email
 
     await Top5List.findById({ _id: req.params.id }, (err, list) => {
         if (err) {
             return res.status(400).json({ success: false, error: err });
         }
-        if (userEmail === list.ownerEmail){
+        // if (userEmail === list.ownerEmail){
             return res.status(200).json({ success: true, top5List: list })
-        }else{
-            return res.status(401).json({ success: false, error: err });
-        }
+        // }else{
+        //     return res.status(401).json({ success: false, error: err });
+        // }
     }).catch(err => console.log(err))
 }
 getTop5Lists = async (req, res) => {
@@ -172,16 +193,16 @@ getTop5Lists = async (req, res) => {
                
             }
             break;
-        case SortingTypes.DATED:
+        case SortingTypes.DATEA:
             //ALl lists and any list names matching the text
             sortObj = {
-               
+               datePublished: "desc"
             }
             break
         case SortingTypes.DATED:
             //ALl lists and any list names matching the text
             sortObj = {
-               
+               datePublished: 'asc'
             }
             
             break
@@ -208,32 +229,43 @@ getTop5Lists = async (req, res) => {
             }
     }
     console.log(sortObj)
-    if (username.length !== 0){
+    // let filterUsername = req.query.filterUsername;
+    let filtEx = req.query.filterExactMatch === "true";
+    
+
+    if (!filtEx){
+        let filterText = (req.query.filter.length != 0)? "^" + req.query.filter + ".*" : ".*";
+        if (username.length !== 0){
+            await Top5List.find({ name: {$regex: filterText, $options: 'i'}, ownerUsername: username},null,{sort: sortObj}, (err, top5Lists) => {
+                if (err){
+                    return res.status(400).json({ success: false, error: err })
+                }
+                return res.status(200).json({ success: true, data: top5Lists})
+            }).catch(err => console.log(err))
+        }
+        else{
+            await Top5List.find({ name: {$regex: filterText, $options: 'i'} ,datePublished: {$ne: null}},null,{sort: sortObj}, (err, top5Lists) => {
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+            
+                return res.status(200).json({ success: true, data: top5Lists })
+            }).catch(err => console.log(err))
+        }
+    }else{
+        //We will be filtering this differently
         
-        await Top5List.find({ ownerUsername: username},null,{sort: sortObj}, (err, top5Lists) => {
+        // console.log(username)
+        // console.log("reached filtering differntly")
+        await Top5List.find({ ownerUsername: {$regex: "^" + username + "$" , $options:"i"}, datePublished: {$ne: null}},null,{sort: sortObj}, (err, top5Lists) => {
             if (err){
                 return res.status(400).json({ success: false, error: err })
             }
             return res.status(200).json({ success: true, data: top5Lists})
         }).catch(err => console.log(err))
-        
     }
-    else{
-        await Top5List.find({},null,{sort: sortObj}, (err, top5Lists) => {
-            if (err) {
-                return res.status(400).json({ success: false, error: err })
-            }
-            // if (!top5Lists.length) {
-            //     return res
-            //         .status(404)
-            //         .json({ success: false, error: `Top 5 Lists not found` })
-            // }
-            //console.log(top5Lists)
-            return res.status(200).json({ success: true, data: top5Lists })
-        }).catch(err => console.log(err))
-    }
-   
 }
+
 getTop5ListPairs = async (req, res) => {
     console.log("Retrieving top5list pairs")
     console.log(req.params.email)
@@ -270,6 +302,7 @@ module.exports = {
     updateTop5List,
     deleteTop5List,
     getTop5Lists,
+    checkExist,
     getTop5ListPairs,
     getTop5ListById,
 }

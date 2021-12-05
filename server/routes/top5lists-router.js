@@ -5,11 +5,14 @@ const UserController = require('../controllers/user-controller')
 const router = express.Router()
 
 router.post('/top5list', (req,res,next) => auth.verify(req,res,next), Top5ListController.createTop5List)
-router.put('/top5list/:id', (req,res,next) => auth.verify(req,res,next), Top5ListController.updateTop5List)
+router.put('/top5list/:id', Top5ListController.updateTop5List)
 router.delete('/top5list/:id', (req,res,next) => auth.verify(req,res,next), Top5ListController.deleteTop5List)
 router.get('/top5list/:id', (req,res,next) => auth.verify(req,res,next), Top5ListController.getTop5ListById)
 router.get('/top5lists', Top5ListController.getTop5Lists)
 router.get('/top5listpairs/:email',(req,res,next) => auth.verify(req,res,next), Top5ListController.getTop5ListPairs)
+router.get('/top5listsE/', Top5ListController.checkExist)
+
+
 
 router.post('/register', UserController.registerUser)
 router.get('/loggedIn', UserController.getLoggedIn)

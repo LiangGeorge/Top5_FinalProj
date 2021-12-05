@@ -18,12 +18,17 @@ import AuthContext from '../auth'
     @author McKilla Gorilla
 */
 const HomeScreen = () => {
+    
     const { auth } = useContext(AuthContext);
+    // console.log(auth)
+
+
     const { store } = useContext(GlobalStoreContext);
     //No rerender because the child is the only component that changes from a selection on NavBar
+    // console.log(store)
     useEffect(() => {
         // store.loadIdNamePairs();
-        console.log(auth.loggedIn)
+        // console.log(auth.loggedIn)
         
         store.loadAllLists()
         // if (auth.loggedIn){

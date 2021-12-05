@@ -34,68 +34,89 @@ function AuthContextProvider(props) {
         const { type, payload } = action;
         switch (type) {
             case AuthActionType.GET_LOGGED_IN: {
-                return setAuth({
-                    user: payload.user,
-                    loggedIn: payload.loggedIn,
-                    showModal: false,
-                    modalMSG: null,
-                    isGuest: auth.isGuest,
-                });
+                return setAuth((prevState) => ({
+                    ...prevState, user: payload.user, loggedIn: payload.loggedIn, showModal: false, modalMSG: null, isGuest: false
+                }))
+                // return setAuth({
+                //     user: payload.user,
+                //     loggedIn: payload.loggedIn,
+                //     showModal: false,
+                //     modalMSG: null,
+                //     isGuest: auth.isGuest,
+                // });
             }
             case AuthActionType.REGISTER_USER: {
-                return setAuth({
-                    user: payload.user,
-                    loggedIn: true,
-                    showModal: false,
-                    modalMSG: null,
-                    isGuest: false,
-                })
+                return setAuth((prevState) => ({
+                    ...prevState, user: payload.user, loggedIn: true, showModal: false, modalMSG: null, isGuest: false
+                }))
+                // return setAuth({
+                //     user: payload.user,
+                //     loggedIn: true,
+                //     showModal: false,
+                //     modalMSG: null,
+                //     isGuest: false,
+                // })
             }
             case AuthActionType.SET_LOGGED_IN: {
-                return setAuth({
-                    user: payload.user,
-                    loggedIn: payload.loggedIn,
-                    showModal: false,
-                    modalMSG: null,
-                    isGuest: false,
-                })
+                return setAuth((prevState) => ({
+                    ...prevState, user: payload.user, loggedIn: payload.loggedIn, showModal: false, modalMSG: null, isGuest: false
+                }))
+                // return setAuth({
+                //     user: payload.user,
+                //     loggedIn: payload.loggedIn,
+                //     showModal: false,
+                //     modalMSG: null,
+                //     isGuest: false,
+                // })
             }
             case AuthActionType.LOGOUT_USER: {
-                return setAuth({
-                user: null,
-                loggedIn: false,
-                showModal: false,
-                modalMSG: null,
-                isGuest: false
-                })
+                return setAuth((prevState) => ({
+                    ...prevState, user: null, loggedIn: false, showModal: false, modalMSG: null, isGuest: false
+                }))
+                // return setAuth({
+                // user: null,
+                // loggedIn: false,
+                // showModal: false,
+                // modalMSG: null,
+                // isGuest: false
+                // })
             }
             case AuthActionType.SHOW_MODAL: {
-                return setAuth({
-                    user: null,
-                    loggedIn: false,
-                    showModal: true,
-                    modalMSG: payload.modalMSG,
-                    isGuest: auth.isGuest
+                return setAuth((prevState) => ({
+                    ...prevState, user: null, loggedIn: false, showModal: true, modalMSG: payload.modalMSG, isGuest: false
+                }))
+                // return setAuth({
+                //     user: null,
+                //     loggedIn: false,
+                //     showModal: true,
+                //     modalMSG: payload.modalMSG,
+                //     isGuest: auth.isGuest
 
-                })
+                // })
             }
             case AuthActionType.HIDE_MODAL: {
-                return setAuth({
-                    user: null,
-                    loggedIn: false,
-                    showModal: false,
-                    modalMSG: null,
-                    isGuest: auth.isGuest
-                })
+                return setAuth((prevState) => ({
+                    ...prevState, user: null, loggedIn: false, showModal: false, modalMSG: null, isGuest: false
+                }))
+                // return setAuth({
+                //     user: null,
+                //     loggedIn: false,
+                //     showModal: false,
+                //     modalMSG: null,
+                //     isGuest: auth.isGuest
+                // })
             }
             case AuthActionType.SET_AS_GUEST: {
-                return setAuth({
-                    user: null,
-                    loggedIn: false,
-                    showModal: false,
-                    modalMSG: null,
-                    isGuest: true,
-                })
+                return setAuth((prevState) => ({
+                    ...prevState, user: null, loggedIn: false, showModal: false, modalMSG: null, isGuest: true
+                }))
+                // return setAuth({
+                //     user: null,
+                //     loggedIn: false,
+                //     showModal: false,
+                //     modalMSG: null,
+                //     isGuest: true,
+                // })
             }
             default:
                 return auth;
@@ -111,6 +132,7 @@ function AuthContextProvider(props) {
     auth.getLoggedIn = async function () {
         // console.log(auth)
         //if (auth.user){
+        // console.log("CALLING ALL HELLFIOANOIFAIOSJFOIAJIOFJ")
         try{
             const response = await api.getLoggedIn();
             // console.log("GET LOGGED IN CALLED AND WORKED")

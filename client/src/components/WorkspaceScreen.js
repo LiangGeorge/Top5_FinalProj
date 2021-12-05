@@ -1,9 +1,11 @@
-import { useContext, useEffect} from 'react'
+import { useContext, useEffect, useState} from 'react'
 import {useLocation} from 'react-router-dom'
 import Top5Item from './Top5Item.js'
 import List from '@mui/material/List';
+import Statusbar from './Statusbar.js'
 import { Typography, Stack, Box, TextField, Button} from '@mui/material'
 import { GlobalStoreContext } from '../store/index.js'
+import AuthContext from '../auth';
 import NavBar from './NavBar.js';
 /*
     This React component lets us edit a loaded list, which only
@@ -15,60 +17,106 @@ import NavBar from './NavBar.js';
 
 function WorkspaceScreen() {
     const { store } = useContext(GlobalStoreContext);
+    const {auth} = useContext(AuthContext);
+
+    const [nameExist, setName] = useState(false); //Disable based on list name? 
+    const [disableItems, setItem] = useState(false);
+    const [disabledButtonOverall, setButton] = useState(false);
+    const [firstRender, setFirst] = useState(0)
     //console.log(store)
     let location = useLocation();
     //console.log(location.pathname)
     
     let idFromUrl = location.pathname.substring(2 + "top5list".length)
     //console.log(idFromUrl)
-
-    useEffect(() =>{
-        
-        store.setCurrentList(idFromUrl)
+    function uniqueItems(list){
+        let lowerList = []
+        for (let i = 0; i < list.length; i++){
+            if (list[i].length !== 0){
+                lowerList.push(list[i].toLowerCase().trim())
+            }
+        }
+        // console.log(lowerList)
+        let setItems = new Set(lowerList)
+        console.log(setItems)
+        // console.log("SET ITEMS: " + setItems.size)
+        // console.log("SET ITEMS NOT 5: " +  (setItems.size !== 5))
+        return setItems.size == 5
     }
-    , []);
+
+    
+
     let editItems = "";
     let listName = ""
 
     let listCopy = null;
 
-    function handleItemChange(event,index) {
-        listCopy.items[index] = event.target.value;
+
+    function publishList(event){
+        //Tack on the datePublished: Date
+        listCopy["datePublished"] = new Date();
         console.log(listCopy)
+        store.updateCurrentList(listCopy)
+    }
+
+    function handleItemChange(event,index) {
+        
+        listCopy.items[index] = event.target.value;
+        // setItem(uniqueItems(listCopy.items))
+        // console.log("DOES THE NAME ALREADY EXIST?: " + nameExist)
+        // setButton(nameExist ||disableItems)
+        // console.log("BUTTON DISABLE????: "+ disabledButtonOverall)
+        // console.log(listCopy)
     }
     
     function handleTitleChange(event) {
+        console.log(event.target.value)
+        // setName(event.target.value)
+        // async function ex(){
+        //     let resp = await store.checkExist(event.target.value)
+        //     await setName(resp)
+        //     console.log("TITLE CHANGE || DOES NAME ALREADY EXIST IN BACKEND: " +  nameExist)
+        //     // setName(resp, console.log("TITLE CHANGE || DOES NAME ALREADY EXIST IN BACKEND: " +  nameExist));
+            
+        // }
+        // ex()
+        // setButton(nameExist || disableItems)
         listCopy.name = event.target.value;
     }
+    // uponCreation = 1
+    // async function test(){
+        if (store.currentList) {
+            listCopy= {...store.currentList};
+            // if (uponCreation )
+            // console.log("BAD")
+            // async function test(){
+            //     setName(await store.checkExist(listCopy.name))
+            // }
+            // test()
+            // setItem(uniqueItems(listCopy.items))
+            editItems = 
+                <Stack sx={{width:"100%"}} spacing={2.2}>
+                    {
+                    store.currentList.items.map((item,index) => (
+                        <TextField id={"top5text-" + index} key={"top5text-" + index} size="small" sx={{width:"99.5%", bgcolor:"#d3ae37", marginTop:1.25}} inputProps={{style: {fontSize: 25}}} defaultValue={item} onChange={(event) => handleItemChange(event,index) } > </TextField>
+                    ))
+                    
+                    }
+                </Stack>
+                ;
+            listName = <TextField id={"top5title" + store.currentList._id} size="small" defaultValue={store.currentList.name} sx={{width:"50%", backgroundColor:"white"}} onChange={(event) => handleTitleChange(event)}></TextField>
+           
+        }
+    // }
+    // test()
     
-    if (store.currentList) {
-        listCopy= {...store.currentList};
-        //console.log(listCopy)
-        editItems = 
-            <Stack sx={{width:"100%"}} spacing={2.2}>
-                {
-                store.currentList.items.map((item,index) => (
-                    <TextField id={"top5text-" + index} key={"top5text-" + index} size="small" sx={{width:"99.5%", bgcolor:"#d3ae37", marginTop:1.25}} inputProps={{style: {fontSize: 25}}} defaultValue={item} onChange={(event) => handleItemChange(event,index) } > </TextField>
-                ))
-                
-                }
-            </Stack>
-            ;
-        listName = <TextField id={"top5title" + store.currentList._id} size="small" defaultValue={store.currentList.name} sx={{width:"50%", backgroundColor:"white"}} onChange={(event) => handleTitleChange(event)}></TextField>
-            // <List id="edit-items" sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            //     {
-            //         store.currentList.items.map((item, index) => (
-            //             <Top5Item 
-            //                 key={'top5-item-' + (index+1)}
-            //                 text={item}
-            //                 index={index} 
-            //             />
-            //         ))
-            //     }
-            // </List>;
-    }
-    
-    // console.log(store.currentList)
+    // console.log(auth.user)
+    // useEffect(() =>{
+    //    console.log("DOES THE NAME ALREADY EXIST: " + nameExist)
+    //    console.log("ARE THE ITEMS UNIQUE: " + disableItems)
+    // }
+    // , [nameExist,disableItems]);
+
     return (
         <div>
             <div id="top5-workspace-bar">
@@ -118,13 +166,14 @@ function WorkspaceScreen() {
                             <Stack  pt={2} direction="row"  height={60}>
                                 <Stack  width="50%"></Stack>
                                 <Stack width="50%" direction="row" spacing={2} justifyContent="space-between">
-                                    <Button fullWidth="true" variant="filled" size="large" onClick={() => store.updateCurrentList(listCopy)} sx={{ border:2 , outlineColor:"black", fontSize:40 ,bgcolor:"#dddddd"}}>Save</Button>
-                                    <Button fullWidth="true" variant="filled" size="large" sx={{border:2 , outlineColor:"black", fontSize:40, bgcolor:"#dddddd"}}>Publish</Button>
+                                    <Button fullWidth={true} variant="filled" size="large" onClick={() => store.updateCurrentList(listCopy)} sx={{ border:2 , outlineColor:"black", fontSize:40 ,bgcolor:"#dddddd"}}>Save</Button>
+                                    <Button disabled={disabledButtonOverall} fullWidth={true}  onClick={(event) => publishList(event)}variant="filled" size="large" sx={{border:2 , outlineColor:"black", fontSize:40, bgcolor:"#dddddd"}}>Publish</Button>
                                 </Stack>
                             </Stack>
                     </Stack>
                 </Box>
             </div>
+            
             </div>
             {/* <div id="top5-workspace">
                 
@@ -139,6 +188,7 @@ function WorkspaceScreen() {
                     {editItems}
                 </div>
             </div> */}
+            <Statusbar></Statusbar>
         </div>
        
     )

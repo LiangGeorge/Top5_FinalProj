@@ -25,7 +25,16 @@ export default function NavBar() {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
-    useEffect(() => {console.log(store.filter)}, [store.filter])
+    useEffect(() => {
+        // auth.getLoggedIn()
+        // console.log(store.filter)
+        if (store.pageView === PageViewTypes.HOME || store.pageView === PageViewTypes.ALL){
+            store.loadAllLists();
+        }
+        
+    }, 
+    [store.filter, store.filterUsername])
+
     const handleSortMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -117,6 +126,13 @@ export default function NavBar() {
         console.log("CHANGING TO Community")
     }
 
+    function handleKeyPress(event){
+        if (store.pageView === PageViewTypes.USER || store.pageView === PageViewTypes.COMM){
+            if (event.key === "Enter" && event.target.value.length !== 0){
+                store.loadAllLists();
+            }
+        }
+    }
     let buttonStyleAll = (store.currentList !== null)? "gray": ((store.pageView === PageViewTypes.ALL) ? "#d3ae37":"black")
     let buttonStyleUser = (store.currentList !== null)? "gray": ((store.pageView === PageViewTypes.USER) ? "#d3ae37":"black")
     let buttonStyleComm = (store.currentList !== null)? "gray": ((store.pageView === PageViewTypes.COMM) ? "#d3ae37":"black")
@@ -125,15 +141,7 @@ export default function NavBar() {
 
 
     function handleTextChange(event){
-        if (store.pageView === PageViewTypes.USER){
-            //Wanna do some different stuff here
-            store.changeFilterUsername(event.target.value)
-            return;
-        }else{
-            store.changeFilter(event.target.value)
-        }
-
-        // console.log(store.filter);
+        store.changeFilter(event.target.value);
     }
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -155,7 +163,7 @@ export default function NavBar() {
                         <IconButton disabled={store.currentList !== null} onClick={handleComm}><Functions sx={{ fontSize: 40, fill:buttonStyleComm }}></Functions></IconButton>
                     </Stack>
                         <Box sx={{flexGrow:1}}>
-                            <TextField onChange={(event)=>handleTextChange(event)} disabled={store.currentList !== null} sx={{background:"white", width:"80%"}} variant="filled" label="Search"></TextField>
+                            <TextField value={store.filter} onKeyUp={(event)=> handleKeyPress(event)} onChange={(event)=>handleTextChange(event) } disabled={store.currentList !== null} sx={{background:"white", width:"80%"}} variant="filled" label="Search"></TextField>
                         </Box>
 
                         <Typography sx={{fontWeight:"bold", color:sortStyle}}> SORT BY </Typography>

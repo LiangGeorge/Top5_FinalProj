@@ -173,21 +173,21 @@ function GlobalStoreContextProvider(props) {
             }
             // UPDATE A LIST
             case GlobalStoreActionType.SET_CURRENT_LIST: {
-                return setStore ((prevState) => ({
-                    ...prevState, currentList: payload, listMarkedForDeletion: null,
-                }))
-                // return setStore({
-                //     idNamePairs: store.idNamePairs,
-                //     currentList: payload,
-                //     newListCounter: store.newListCounter,
-                //     isListNameEditActive: false,
-                //     isItemEditActive: false,
-                //     listMarkedForDeletion: null,
-                //     allLists: store.allLists,
-                //     pageView: store.pageView,
-                //     filter: store.filter,
-                //     sort: store.sort,
-                // });
+                // return setStore ((prevState) => ({
+                //     ...prevState, currentList: payload, listMarkedForDeletion: null,
+                // }))
+                return setStore({
+                    idNamePairs: store.idNamePairs,
+                    currentList: payload,
+                    newListCounter: store.newListCounter,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null,
+                    allLists: store.allLists,
+                    pageView: store.pageView,
+                    filter: store.filter,
+                    sort: store.sort,
+                });
             }
             // // START EDITING A LIST ITEM
             // case GlobalStoreActionType.SET_ITEM_EDIT_ACTIVE: {
@@ -239,7 +239,7 @@ function GlobalStoreContextProvider(props) {
 
             case GlobalStoreActionType.CHANGE_PAGE_VIEW:{
                 return setStore ((prevState) => ({
-                    ...prevState, pageView: payload, listMarkedForDeletion: null,
+                    ...prevState, pageView: payload, listMarkedForDeletion: null, filter: "", filterUsername: ""
                 }))
                 // return setStore({
                 //     idNamePairs: store.idNamePairs,
@@ -319,9 +319,10 @@ function GlobalStoreContextProvider(props) {
             type: GlobalStoreActionType.CHANGE_FILTER,
             payload: string,
         })
+       
         
     }
-    console.log("FROM THE STORE: " + store.filter)
+    // console.log("FROM THE STORE: " + store.filter)
     store.changeSorting = function(sortStr){
         storeReducer({
             type: GlobalStoreActionType.CHANGE_SORTING,
@@ -329,57 +330,88 @@ function GlobalStoreContextProvider(props) {
         })
         // console.log("Sorting by: " + sortStr)
         //userString will need to change eventually 
-        console.log("Sort Str: " +sortStr)
+        // console.log("Sort Str: " +sortStr)
         store.loadAllLists();
     }
     store.loadAllLists = async function(){
         let payload = null
         // console.log("Load Lists")
         // console.log(auth.user)
-        console.log("HEY HERE SORTING: " + store.sort)
-        switch (store.pageView) {
-            case PageViewTypes.HOME: 
-                payload = {
-                    params:{
-                        username: auth.user.username,
-                        sort: store.sort,
-                        filter: store.filter,
+        // console.log("HEY HERE SORTING: " + store.sort)
+        // if (store.currentList !== null){
+            switch (store.pageView) {
+                case PageViewTypes.HOME: 
+                    payload = {
+                        params:{
+                            username: auth.user.username,
+                            // username: "",
+                            sort: store.sort,
+                            filter: store.filter,
+                            filterExactMatch: false,
+                            // filterUsername: store.filterUsername
+                        }
                     }
-                }
-                break;
-            case PageViewTypes.ALL:
-                //ALl lists and any list names matching the text
-                payload = {
-                    params:{
-                        username: "",
-                        sort: store.sort
+                    break;
+                case PageViewTypes.ALL:
+                    //ALl lists and any list names matching the text
+                    payload = {
+                        params:{
+                            username: "",
+                            sort: store.sort,
+                            filter: store.filter,
+                            filterExactMatch: false,
+                            // filterUsername: store.filterUsername,
+                        }
                     }
-                }
-                break
-            case PageViewTypes.USER:
-                //User has to match the searchText
-                return
-                break
-            case PageViewTypes.COMM:
-                //An entirely different method has to be called her. Get Community lists. 
-                return
-                break
+                    break
+                case PageViewTypes.USER:
+    
+                    payload = {
+                        params:{
+                            username: store.filter,
+                            sort: store.sort,
+                            filter: "",
+                            filterExactMatch: true,
+                            // filterUsername: store.filterUsername,
+                        }
+                    }
+                    //User has to match the searchText
+                    break
+                case PageViewTypes.COMM:
+                    //An entirely different method has to be called her. Get Community lists. 
+                    return
+                    break
+    
+                default:
+                    payload = {
+                        params:{
+                            username: "",
+                        }
+                    }
+            }
 
-            default:
-                payload = {
-                    params:{
-                        username: "",
-                    }
-                }
-        }
-        console.log(payload)
+        // console.log(payload)
         const response = await api.getAllTop5Lists(payload);
         if (response.data.success) {
             //console.log("AFMIOAMFOPISAMFIOPMASPIOMFIPASMFPIOMASPOFAPOSFMPOMSAFMP")
             // console.log(response.data.data)
             let lists = response.data.data
+            if (store.sort === SortingTypes.DATED){
+                let nullCount = 0;
+                for (let i = 0; i < lists.length; i++){
+                    if (lists[i].datePublished === null){
+                        nullCount += 1
+                    }
+                }
+                if (lists.length !== 0 && nullCount !== 0){
+                    while(lists[0].datePublished === null){
+                        let removeList = (lists.splice(0,1))[0]
+                        lists.push(removeList);
+                    }
+                }
+            }
 
-            //console.log(lists)
+            // console.log(lists)
             storeReducer({
                 type: GlobalStoreActionType.LOAD_ALL_LISTS,
                 payload: lists
@@ -387,6 +419,24 @@ function GlobalStoreContextProvider(props) {
         }
         else {
             console.log("API FAILED TO GET ALL LISTS");
+        }
+    // }
+        
+        
+    }
+    store.checkExist = async function (listName) {
+        let payload = {
+            params:{
+                name: listName,
+                username: auth.user.username
+            }
+         
+        }
+        // console.log(payload)
+        const response = await api.checkIfTop5ListExists(payload);
+        if (response.data.success){
+            console.log("RESPONSE FROM SERVER: " + response.data.data)
+            return response.data.data;
         }
     }
     // THESE ARE THE FUNCTIONS THAT WILL UPDATE OUR STORE AND
@@ -397,7 +447,7 @@ function GlobalStoreContextProvider(props) {
     
     store.changeListName = async function (id, newName) {
         let response = await api.getTop5ListById(id);
-        console.log("LISTNAME CHANGED")
+        // console.log("LISTNAME CHANGED")
         if (response.data.success) {
             let top5List = response.data.top5List;
             top5List.name = newName;
@@ -443,7 +493,6 @@ function GlobalStoreContextProvider(props) {
             payload: {}
         });
         
-        tps.clearAllTransactions();
     }
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
@@ -452,6 +501,7 @@ function GlobalStoreContextProvider(props) {
             name: newListName,
             items: ["?", "?", "?", "?", "?"],
             ownerEmail: auth.user.email,
+            datePublished: null,
             ownerUsername: auth.user.username,
             views: 0,
             likers: [],
@@ -541,7 +591,8 @@ function GlobalStoreContextProvider(props) {
         let response = await api.getTop5ListById(id);
         if (response.data.success) {
             let top5List = response.data.top5List;
-
+            console.log(top5List)
+            
             response = await api.updateTop5ListById(top5List._id, top5List);
             if (response.data.success) {
                 storeReducer({
@@ -605,7 +656,9 @@ function GlobalStoreContextProvider(props) {
 
     store.updateCurrentList = async function (top5List) {
         // const response = await api.updateTop5ListById(store.currentList._id, top5List);
+        console.log(top5List)
         const response = await api.updateTop5ListById(top5List._id, top5List);
+        
         if (response.data.success) {
             // storeReducer({
             //     type: GlobalStoreActionType.SET_CURRENT_LIST,

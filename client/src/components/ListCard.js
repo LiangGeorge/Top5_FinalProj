@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { GlobalStoreContext } from '../store'
 import AuthContext from '../auth';
 import TextField from '@mui/material/TextField';
@@ -7,7 +8,7 @@ import ListItem from '@mui/material/ListItem';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Accordion,Typography, Card, CardActions,CardContent, CardHeader,Stack, Link} from '@mui/material';
+import { Accordion,Typography, Card, Button, CardHeader,Stack, Link} from '@mui/material';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMore from '@mui/icons-material/ExpandMore'
@@ -29,6 +30,9 @@ function ListCard(props) {
     const [expanded, setExpanded] = useState(false);
     // const { idNamePair } = props;
     const {top5List} = props;
+    
+
+    //const history = useHistory();
 
     function toggleExpansion(){
         if (!expanded){
@@ -134,8 +138,26 @@ function ListCard(props) {
     //     setText(event.target.value);
     // }
     // let buttonStyle = {fontSize:35}
-    let comments = ["FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI","FOANSIOFNAOSIFNOI"]
+    let displayDate = null
+    if (top5List.datePublished !== null){
+        displayDate = new Date(top5List.datePublished).toDateString()
+        displayDate = displayDate.split(" ")
+        displayDate = displayDate[1] +" " + displayDate[2] + "," + displayDate[3];
+    }
+    
+    let editOrPublished = (top5List.datePublished !== null)? 
+    <Stack direction = "row" width="100%" justifyContent="left">
+        <Typography sx={{ fontSize:15}}>{"Published: "}</Typography>  
+        <Typography sx={{ fontSize:15, width:"100%", color:"green"}}>{displayDate}</Typography>
+    </Stack>
+    : 
+    <Link 
+    // component="button"
+    variant="body2"
+    onClick={()=>store.setCurrentList(top5List._id)} sx={{ cursor:"pointer", width:"100%"}}>Edit</Link>;
 
+    // console.log(typeof(Date.now()))
+    
     let cardElement = 
     <Card key={"listcard-" + top5List._id}sx={{borderRadius: 5,border:2}}>
         <CardHeader
@@ -145,19 +167,19 @@ function ListCard(props) {
         action={
             <div id="buttonbox" > 
                 <Stack direction="row" justifyContent="space-between" spacing={2}>
-                    <IconButton onClick={addLike}>
-                    <ThumbUpOutlined sx={{color: (top5List.likers.includes(auth.user.username))?"blue":"black" ,fontSize:35}}></ThumbUpOutlined>
+                    <IconButton disabled={auth.isGuest} onClick={addLike}>
+                    <ThumbUpOutlined sx={{color: (auth.isGuest)? "gray" : ((top5List.likers.includes(auth.user.username))?"blue":"black") ,fontSize:35}}></ThumbUpOutlined>
                     </IconButton>
 
                     <Typography sx={{paddingTop:1, fontSize:25}}>{top5List.likers.length}</Typography>
 
-                    <IconButton onClick={addDislike}>
-                    <ThumbDownOutlined sx={{color: (top5List.dislikers.includes(auth.user.username))?"red":"black" ,fontSize:35}}></ThumbDownOutlined>
+                    <IconButton disabled={auth.isGuest} onClick={addDislike}>
+                    <ThumbDownOutlined sx={{color: (auth.isGuest)? "gray" : ((top5List.dislikers.includes(auth.user.username)))?"red":"black" ,fontSize:35}}></ThumbDownOutlined>
                     </IconButton>
 
                     <Typography sx={{paddingTop:1, fontSize:25}}>{top5List.dislikers.length}</Typography>
 
-                    <IconButton onClick={(event)=>handleDeleteList(event,top5List._id)}>
+                    <IconButton sx = {{visibility: (auth.isGuest || auth.user.username !== top5List.ownerUsername)? "hidden":""}} disabled={auth.isGuest || (auth.user.username !== top5List.ownerUsername)} onClick={(event)=>handleDeleteList(event,top5List._id)}>
                     <DeleteOutlined sx={{fontSize:35}} ></DeleteOutlined>
                     </IconButton>
                 </Stack>
@@ -212,7 +234,7 @@ function ListCard(props) {
                                 </Stack>
                                 
                             </Box>
-                            <TextField onChange={(event) => setText(event.target.value)}  onKeyUp={(event) => addComment(event)} changevariant="filled" label="Add Comment"  sx={{ marginTop:1}}></TextField>
+                            <TextField disabled={auth.isGuest} onChange={(event) => setText(event.target.value)}  onKeyUp={(event) => addComment(event)} changevariant="filled" label="Add Comment"  sx={{ marginTop:1}}></TextField>
                         </Stack>
                     </Box>
                 </Stack>
@@ -231,7 +253,17 @@ function ListCard(props) {
         sx={{marginLeft:2,}}
         > 
         {/* <Typography sx={{ fontSize:15, width:"68%"}}>Published: Jan 5, 2019</Typography> */}
-        <Link href={"/top5List/" + top5List._id } sx={{ width:"100%"}}>Edit</Link>
+        {/* <Link 
+            // component="button"
+            variant="body2"
+            onClick={()=>store.setCurrentList(top5List._id)} sx={{ cursor:"pointer", width:"100%"}}>Edit</Link> */}
+        {editOrPublished}
+
+
+
+        {/* <Typography onClick={()=>history.push("/top5List/" + top5List._id)} sx={{ fontStyle:"underline", fontSize:15, width:"100%"}}>Edit</Typography> */}
+        {/* <Button sx={{width:"100%" ,textAlign:"left"}}width={"100%"} onClick={()=>history.push("/top5List/" + top5List._id)}>Edit</Button> */}
+        {/* <a sx={{width:"100%" }} href="">Edit</a> */}
         <Stack direction = "row" >
             <Typography pt={1} sx={{fontSize:15 }}>{"Views: "}</Typography>
             <Typography pl={1} pt={1} pr={20}sx={{  color:"red", fontSize:15}}>{top5List.views}</Typography>

@@ -39,6 +39,8 @@ export default function AppBanner() {
         if (store.currentList){
             store.closeLogout()
         }
+        // store.changeView("NONE")
+        store.changeFilter("");
     }
 
     const menuId = 'primary-search-account-menu';
