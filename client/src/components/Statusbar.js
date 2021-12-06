@@ -1,4 +1,4 @@
-import { useContext , useEffect} from 'react'
+import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import { PageViewTypes} from '../store'
 import { Typography, IconButton } from '@mui/material'
@@ -21,10 +21,10 @@ function Statusbar() {
     }
 
     let statusInternal = ""
-    let text="";
-    if (store.currentList){
-        text = store.currentList.name;
-    }
+    // let text="";
+    // if (store.currentList){
+    //     text = store.currentList.name;
+    // }
     
     // console.log(store.currentList)
     if (auth.isGuest || (auth.user !== null)){

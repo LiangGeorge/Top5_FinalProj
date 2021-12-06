@@ -177,10 +177,10 @@ function AuthContextProvider(props) {
                 console.log("Pushing to next")
                 history.push("/");
                 //Need to load the right id's name pairs 
-                store.loadIdNamePairs();
+                // store.loadIdNamePairs();
             }
         }catch(err){
-            console.log(err.response)
+            console.log(err)
             authReducer({
                 type: AuthActionType.SHOW_MODAL,
                 payload:{
@@ -195,6 +195,8 @@ function AuthContextProvider(props) {
     }
 
     auth.loginUser = async function(userData){
+        console.log("PRINTING LOGIN USER: ")
+        console.log(userData)
         try{
             const response = await api.loginUser(userData);
             console.log(response)

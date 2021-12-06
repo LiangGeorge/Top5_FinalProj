@@ -5,15 +5,15 @@ const bcrypt = require('bcryptjs')
 loginUser = async (req, res) => {
     //console.log("Checking Login User")
     try{
-        const{ email, password } = req.body;
-        if(!email, !password){
+        const{ username, password } = req.body;
+        if(!username, !password){
             //console.log("Required fields not correct")
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
         
-        const existingUser = await User.findOne({email: email})
+        const existingUser = await User.findOne({username: username})
         // console.log(existingUser)
         if (!existingUser){
             //If no email was found 
@@ -32,7 +32,8 @@ loginUser = async (req, res) => {
         //Otherwise login the user
         // LOGIN THE USER
         const token = auth.signToken(existingUser);
-
+        console.log("LOGGING EXISTING USER ON SIGN IN: ")
+        console.log(existingUser)
         await res.cookie("token", token, {
             httpOnly: true,
             secure: true,
@@ -59,15 +60,28 @@ getLoggedIn = async (req, res) => {
         //console.log(req)
         const loggedInUser = await User.findOne({ _id: req.userId });
         console.log(loggedInUser)
-        return res.status(200).json({
-            loggedIn: true,
-            user: {
-                firstName: loggedInUser.firstName,
-                lastName: loggedInUser.lastName,
-                email: loggedInUser.email,
-                username: loggedInUser.username,
-            }
-        });
+        if (!loggedInUser){
+            return res.status(200).json({
+                loggedIn: false,
+                user: {
+
+                }
+            })
+        }
+        try{
+            return res.status(200).json({
+                loggedIn: true,
+                user: {
+                    firstName: loggedInUser.firstName,
+                    lastName: loggedInUser.lastName,
+                    email: loggedInUser.email,
+                    username: loggedInUser.username,
+                }
+            }).send();
+        }catch(err){
+            console.log(err)
+        }
+        
     })
 }
 
@@ -86,8 +100,8 @@ registerUser = async (req, res) => {
     
     
     try {
-        const { firstName, lastName, email, password, passwordVerify } = req.body;
-        if (!firstName || !lastName || !email || !password || !passwordVerify) {
+        const { firstName, lastName, email, password, passwordVerify, username} = req.body;
+        if (!firstName || !lastName || !email || !password || !passwordVerify|| !username) {
             console.log("Not all fields ull")
             //console.log(res.status())
             res.status(400).json({ errorMessage: "Please enter all required fields." });
@@ -118,14 +132,24 @@ registerUser = async (req, res) => {
                 })
         }
 
+        const existingUsername = await User.findOne({ username: username});
+        if (existingUsername){
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    errorMessage: "An account with this username already exists."
+                })
+        }
+
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
         const passwordHash = await bcrypt.hash(password, salt);
         
 
 
-        const userCounts = await User.estimatedDocumentCount({})
-        const username = firstName + lastName + userCounts;
+        // const userCounts = await User.estimatedDocumentCount({})
+        // const username = firstName + lastName + userCounts;
         const newUser = new User({
             firstName, lastName, email, passwordHash, username
         });

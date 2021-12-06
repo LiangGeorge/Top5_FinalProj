@@ -1,14 +1,10 @@
 import { useContext, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { GlobalStoreContext } from '../store'
 import AuthContext from '../auth';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import ListItem from '@mui/material/ListItem';
 import IconButton from '@mui/material/IconButton';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Accordion,Typography, Card, Button, CardHeader,Stack, Link} from '@mui/material';
+import { Accordion,Typography, Card, CardHeader,Stack, Link} from '@mui/material';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMore from '@mui/icons-material/ExpandMore'
@@ -24,7 +20,6 @@ import {ThumbUpOutlined, ThumbDownOutlined, DeleteOutlined} from '@mui/icons-mat
 function ListCard(props) {
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
-    const [editActive, setEditActive] = useState(false);
     const [flopper, setFlopper] = useState(false);
     const [text, setText] = useState("");
     const [expanded, setExpanded] = useState(false);
@@ -41,41 +36,22 @@ function ListCard(props) {
         }
         setExpanded(!expanded);
     }
-    function handleLoadList(event, id) {
-        if (!event.target.disabled) {
-            // CHANGE THE CURRENT LIST
-            store.setCurrentList(id);
-        }
-    }
-
-    function handleToggleEdit(event) {
-        event.stopPropagation();
-        toggleEdit();
-    }
-
-    function toggleEdit() {
-        let newActive = !editActive;
-        if (newActive) {
-            store.setIsListNameEditActive();
-        }
-        // setText(idNamePair.name)
-        setEditActive(newActive);
-    }
+    
 
     async function handleDeleteList(event, id) {
         event.stopPropagation();
         store.markListForDeletion(id);
     }
 
-    function addLike(){
-        if (auth.isGuest || top5List.likers.includes(auth.user.username)){
-            return;
-        }else{
-            top5List.likers.push(auth.user.username);
-            store.updateCurrentList(top5List)
-            setFlopper(true)
-        }
-    }
+    // function addLike(){
+    //     if (auth.isGuest || top5List.likers.includes(auth.user.username)){
+    //         return;
+    //     }else{
+    //         top5List.likers.push(auth.user.username);
+    //         store.updateCurrentList(top5List)
+    //         setFlopper(true)
+    //     }
+    // }
 
 
     function addLike(){
@@ -107,7 +83,7 @@ function ListCard(props) {
     }
 
     function addComment(event){
-        if (event.key == "Enter" && event.target.value.length !== 0){
+        if (event.key === "Enter" && event.target.value.length !== 0){
             event.target.value=""
             top5List.comments.unshift({"body": text, "owner": auth.user.username})
             store.updateCurrentList(top5List)
@@ -228,7 +204,7 @@ function ListCard(props) {
             <AccordionDetails sx={{bgcolor: (top5List.datePublished !== null)? "#d4d4f6 ": "#fffff1"}}>
                 <Stack direction="row" justifyContent="space-between" spacing={2} >
                     <Box sx={{bgcolor:"#2b2e6f", borderRadius:"7px", width:"50%", color:"#cfab37"}} pl={2} pt={2} pb={2}>
-                        <Stack spacing={1}>
+                        <Stack spacing={(top5List.ownerUsername)? 2: 1}>
                             {itemCard
                            }
                         </Stack>
@@ -236,7 +212,7 @@ function ListCard(props) {
                     <Box sx={{width:"50%"}} >
                         <Stack>
                             <Box >
-                                <Stack  spacing={0.5} sx={{ maxHeight:300, overflowY:"scroll"}}>
+                                <Stack  spacing={0.5} sx={{ minHeight:335, maxHeight:335, overflowY:"scroll"}}>
                                     {top5List.comments.map((comment,index) => (
                                         <Box key={"comment" + index} sx={{bgcolor:"#d3ae37", borderRadius:"7px", color:"black", border: 1}} pl={2}>
                                             <Typography sx={{marginTop:1,fontSize:13}}>{comment.owner}</Typography>

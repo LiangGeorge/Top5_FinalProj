@@ -37,7 +37,7 @@ function Copyright(props) {
       const data = new FormData(event.currentTarget);
       auth.loginUser(
           {
-              email: data.get('email'),
+              username: data.get('Username'),
               password: data.get('password')
           }
         )
@@ -108,10 +108,10 @@ function Copyright(props) {
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="Username"
+                  label="Username"
+                  name="Username"
+                  autoComplete="Username"
                   autoFocus
                 />
                 <TextField

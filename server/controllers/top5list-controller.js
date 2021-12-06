@@ -375,11 +375,11 @@ updateTop5List = async (req, res) => {
 
 checkExist = async (req, res) =>{
 
-    searchObj = {$regex:"^" + req.query.name + "$" , $options:"i"}
+    // searchObj = {$regex:"^" + req.query.name + "$" , $options:"i"}
     console.log("REQUEST QUERY NAME: " + req.query.name)
     console.log(req.query)
     // console.log(req)
-    await Top5List.exists({ name: searchObj, ownerUsername: req.query.username} , (err,ex) => {
+    await Top5List.exists({ name: req.query.name, ownerUsername: req.query.username, datePublished: {$ne: null}} , (err,ex) => {
         console.log("CHECKING EXIST OVER HERE")
         if (err){
             console.log("error out")

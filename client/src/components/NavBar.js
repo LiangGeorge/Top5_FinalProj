@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect} from 'react';
-import { Link } from 'react-router-dom'
 import AuthContext from '../auth';
 import { GlobalStoreContext } from '../store'
 import { PageViewTypes, SortingTypes} from '../store'
@@ -107,7 +106,7 @@ export default function NavBar() {
  
     function handleHome() {
         store.changeView(PageViewTypes.HOME)
-        console.log(store.pageView);
+        // console.log(store.pageView);
         
     }
 

@@ -1,7 +1,5 @@
 import { useContext, useEffect, useState} from 'react'
 import {useLocation} from 'react-router-dom'
-import Top5Item from './Top5Item.js'
-import List from '@mui/material/List';
 import Statusbar from './Statusbar.js'
 import { Typography, Stack, Box, TextField, Button} from '@mui/material'
 import { GlobalStoreContext } from '../store/index.js'
@@ -18,9 +16,8 @@ import NavBar from './NavBar.js';
 function WorkspaceScreen() {
     const { store } = useContext(GlobalStoreContext);
     const {auth} = useContext(AuthContext);
-
-    const [nameExist, setName] = useState(false); //Disable based on list name? 
-    const [disableItems, setItem] = useState(false);
+    const [nameText, setName] = useState("")
+    const [itemFlopper, setItem] = useState(0);
     const [disabledButtonOverall, setButton] = useState(false);
     const [firstRender, setFirst] = useState(0)
     //console.log(store)
@@ -33,14 +30,16 @@ function WorkspaceScreen() {
         let lowerList = []
         for (let i = 0; i < list.length; i++){
             if (list[i].length !== 0){
+                let itemToPush = list[i].toLowerCase().trim()
+                if (itemToPush.length == 0){
+                    return false;
+                }
                 lowerList.push(list[i].toLowerCase().trim())
             }
         }
         // console.log(lowerList)
         let setItems = new Set(lowerList)
-        console.log(setItems)
-        // console.log("SET ITEMS: " + setItems.size)
-        // console.log("SET ITEMS NOT 5: " +  (setItems.size !== 5))
+        // console.log(setItems)
         return setItems.size == 5
     }
 
@@ -50,42 +49,37 @@ function WorkspaceScreen() {
     let listName = ""
 
     let listCopy = null;
-
-
+    // let i = 0
+    // console.log("The value of i was reset")
     function publishList(event){
         //Tack on the datePublished: Date
         listCopy["datePublished"] = new Date();
+        listCopy["name"] = nameText;
+        console.log("PUBLISHING THIS LIST: ")
         console.log(listCopy)
+        setItem(0)
         store.updateCurrentList(listCopy)
     }
 
+    function saveList(event){
+        listCopy["name"] = nameText;
+        setItem(0)
+        store.updateCurrentList(listCopy)
+    }
     function handleItemChange(event,index) {
-        
         listCopy.items[index] = event.target.value;
-        // setItem(uniqueItems(listCopy.items))
-        // console.log("DOES THE NAME ALREADY EXIST?: " + nameExist)
-        // setButton(nameExist ||disableItems)
-        // console.log("BUTTON DISABLE????: "+ disabledButtonOverall)
-        // console.log(listCopy)
+        setItem(itemFlopper + 1);
     }
     
     function handleTitleChange(event) {
         console.log(event.target.value)
-        // setName(event.target.value)
-        // async function ex(){
-        //     let resp = await store.checkExist(event.target.value)
-        //     await setName(resp)
-        //     console.log("TITLE CHANGE || DOES NAME ALREADY EXIST IN BACKEND: " +  nameExist)
-        //     // setName(resp, console.log("TITLE CHANGE || DOES NAME ALREADY EXIST IN BACKEND: " +  nameExist));
-            
-        // }
-        // ex()
-        // setButton(nameExist || disableItems)
-        listCopy.name = event.target.value;
+        listCopy["name"] = event.target.value;
+        setName(event.target.value)
+        setItem(itemFlopper + 1)
     }
     // uponCreation = 1
     // async function test(){
-        if (store.currentList) {
+        if (store.currentList && !listCopy) {
             listCopy= {...store.currentList};
             // if (uponCreation )
             // console.log("BAD")
@@ -110,13 +104,37 @@ function WorkspaceScreen() {
     // }
     // test()
     
-    // console.log(auth.user)
-    // useEffect(() =>{
-    //    console.log("DOES THE NAME ALREADY EXIST: " + nameExist)
-    //    console.log("ARE THE ITEMS UNIQUE: " + disableItems)
-    // }
-    // , [nameExist,disableItems]);
-
+    
+       useEffect(() =>{
+        //    console.log("PRINTING LIST: ")
+        //    console.log(listCopy)
+        
+           if (itemFlopper == 0){
+                // console.log("NAME: " + listCopy.name)
+                if (listCopy.name){
+                    setName(listCopy.name)
+                }
+                setItem(itemFlopper + 1)
+           }
+        //    console.log("PRINTING LIST NAME: " + nameText)
+        //    let x = null;
+           async function check(){
+            //    console.log("PERFORMING CHECK TO SEE IF NAME IS VALID FOR PUBLISH")
+               let x = await store.checkExist(nameText)
+                if (nameText.length == 0){
+                    x = true;
+                }
+                // console.log(nameText)
+                // console.log(x)
+                
+                // console.log("DOES THE NAME EXIST? " + x)
+                // console.log("ARE THE ITEMS NOT UNIQUE? : " + !uniqueItems(listCopy.items))
+                setButton(!uniqueItems(listCopy.items) || x)
+           }
+           check()
+           
+        //    store.checkExist(listCopy.name)
+       }, [itemFlopper])
     return (
         <div>
             <div id="top5-workspace-bar">
@@ -166,7 +184,7 @@ function WorkspaceScreen() {
                             <Stack  pt={2} direction="row"  height={60}>
                                 <Stack  width="50%"></Stack>
                                 <Stack width="50%" direction="row" spacing={2} justifyContent="space-between">
-                                    <Button fullWidth={true} variant="filled" size="large" onClick={() => store.updateCurrentList(listCopy)} sx={{ border:2 , outlineColor:"black", fontSize:40 ,bgcolor:"#dddddd"}}>Save</Button>
+                                    <Button fullWidth={true} variant="filled" size="large" onClick={(event) => saveList(event)} sx={{ border:2 , outlineColor:"black", fontSize:40 ,bgcolor:"#dddddd"}}>Save</Button>
                                     <Button disabled={disabledButtonOverall} fullWidth={true}  onClick={(event) => publishList(event)}variant="filled" size="large" sx={{border:2 , outlineColor:"black", fontSize:40, bgcolor:"#dddddd"}}>Publish</Button>
                                 </Stack>
                             </Stack>

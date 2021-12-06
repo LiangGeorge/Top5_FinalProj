@@ -1,17 +1,17 @@
 import React, { useContext, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
-import { Fab, Typography } from '@mui/material'
-import AddIcon from '@mui/icons-material/Add';
-import List from '@mui/material/List';
-import { PageViewTypes, SortingTypes} from '../store'
+import { Typography } from '@mui/material'
+// import AddIcon from '@mui/icons-material/Add';
+// import List from '@mui/material/List';
+// import { PageViewTypes, SortingTypes} from '../store'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import NavBar from './NavBar.js'
-import AppBar from '@mui/material/AppBar';
-import AuthContext from '../auth'
+// import AppBar from '@mui/material/AppBar';
+// import AuthContext from '../auth'
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -19,7 +19,7 @@ import AuthContext from '../auth'
 */
 const HomeScreen = () => {
     
-    const { auth } = useContext(AuthContext);
+    // const { auth } = useContext(AuthContext);
     // console.log(auth)
 
 

@@ -80,8 +80,8 @@ export default function AppBanner() {
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        >   
+            <MenuItem onClick={handleLogout}>{(auth.user)? "Logout: " + auth.user.username: "Logout"}</MenuItem>
         </Menu>        
 
     // let editToolbar = "";

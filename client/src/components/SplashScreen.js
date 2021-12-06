@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { useHistory } from 'react-router-dom'
 import AuthContext from '../auth';
-import { Store } from '@mui/icons-material';
 import { PageViewTypes} from '../store'
 import { GlobalStoreContext } from '../store'
 
@@ -41,8 +40,8 @@ export default function SplashScreen() {
             
             <Stack position="relative" width={'25%'}  ml={'70%'} spacing={"5%"}> 
                 <Stack direction="row" justifyContent="space-between" spacing={"5%"}>
-                    <Button fullWidth="true" variant="contained" sx = {buttonStyle} onClick={() => history.push("/register/")}>Create Account</Button>
-                    <Button fullWidth="true" variant="contained" sx = {buttonStyle} onClick={() => history.push("/login")}>Login</Button>
+                    <Button fullWidth variant="contained" sx = {buttonStyle} onClick={() => history.push("/register/")}>Create Account</Button>
+                    <Button fullWidth variant="contained" sx = {buttonStyle} onClick={() => history.push("/login")}>Login</Button>
                 </Stack>
                 <Button variant="contained" sx = {buttonStyle} onClick={handleGuestClose}>Continue As Guest</Button>
             </Stack>
