@@ -1,0 +1,503 @@
+[{
+  "_id": {
+    "$oid": "61ae63a8419bc74850018a10"
+  },
+  "items": [
+    "Cow",
+    "Tuna",
+    "Chicken",
+    "Pig",
+    "Fish"
+  ],
+  "likers": [
+    "ajeong",
+    "rogcheng",
+    "gliang"
+  ],
+  "dislikers": [],
+  "name": "Animals to Eat",
+  "ownerEmail": "a@gmail.com",
+  "datePublished": {
+    "$date": "2019-11-03T19:38:31.981Z"
+  },
+  "ownerUsername": "ajeong",
+  "views": 54,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T19:25:28.108Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:13:53.651Z"
+  },
+  "__v": 4
+},{
+  "_id": {
+    "$oid": "61ae6734419bc74850018bce"
+  },
+  "items": [
+    "Japan",
+    "Hong Kong",
+    "Korea",
+    "China",
+    "Italy"
+  ],
+  "likers": [],
+  "dislikers": [
+    "ajeong",
+    "rogcheng",
+    "gliang"
+  ],
+  "name": "Countries",
+  "ownerEmail": "a@gmail.com",
+  "datePublished": {
+    "$date": "2020-04-06T19:41:32.963Z"
+  },
+  "ownerUsername": "ajeong",
+  "views": 25,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T19:40:36.462Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:13:55.589Z"
+  },
+  "__v": 4
+},{
+  "_id": {
+    "$oid": "61ae6802419bc74850018c53"
+  },
+  "items": [
+    "Python",
+    "Java",
+    "Swift",
+    "Javascript",
+    "Kotlin"
+  ],
+  "likers": [
+    "ajeong",
+    "rogcheng",
+    "gliang"
+  ],
+  "dislikers": [],
+  "name": "Programming Languages",
+  "ownerEmail": "a@gmail.com",
+  "datePublished": {
+    "$date": "2021-05-06T19:44:28.358Z"
+  },
+  "ownerUsername": "ajeong",
+  "views": 3,
+  "comments": [
+    {
+      "_id": {
+        "$oid": "61ae687a419bc74850018cb0"
+      },
+      "body": "I love python 🥺! ",
+      "owner": "ajeong"
+    }
+  ],
+  "createdAt": {
+    "$date": "2021-12-06T19:44:02.837Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:33:25.862Z"
+  },
+  "__v": 8
+},{
+  "_id": {
+    "$oid": "61ae6881419bc74850018cb2"
+  },
+  "items": [
+    "Icecream",
+    "Steak",
+    "Sushi",
+    "Egg",
+    "Taco"
+  ],
+  "likers": [
+    "ajeong"
+  ],
+  "dislikers": [
+    "rogcheng"
+  ],
+  "name": "Foods",
+  "ownerEmail": "a@gmail.com",
+  "datePublished": {
+    "$date": "2020-07-29T19:47:11.337Z"
+  },
+  "ownerUsername": "ajeong",
+  "views": 2,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T19:46:09.727Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T19:57:17.470Z"
+  },
+  "__v": 4
+},{
+  "_id": {
+    "$oid": "61ae68ef419bc74850018d34"
+  },
+  "items": [
+    "Gunner's Dream",
+    "Comfortably Numb",
+    "Paranoid Eyes",
+    "Time",
+    "Shine On You Diamond"
+  ],
+  "likers": [
+    "ajeong",
+    "rogcheng",
+    "gliang"
+  ],
+  "dislikers": [],
+  "name": "Pink Floyd Songs",
+  "ownerEmail": "a@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T19:49:15.767Z"
+  },
+  "ownerUsername": "ajeong",
+  "views": 4,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T19:47:59.150Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:18:31.517Z"
+  },
+  "__v": 4
+},{
+  "_id": {
+    "$oid": "61ae6a5c419bc74850018dfd"
+  },
+  "items": [
+    "Tuna",
+    "Chicken",
+    "Fish",
+    "Cow",
+    "Pig"
+  ],
+  "likers": [
+    "rogcheng",
+    "gliang"
+  ],
+  "dislikers": [],
+  "name": "Animals to Eat",
+  "ownerEmail": "abc123@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T19:54:43.061Z"
+  },
+  "ownerUsername": "rogcheng",
+  "views": 1,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T19:54:04.016Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:14:06.349Z"
+  },
+  "__v": 3
+},{
+  "_id": {
+    "$oid": "61ae6b2d419bc74850018eaf"
+  },
+  "items": [
+    "Hong Kong",
+    "China",
+    "Korea",
+    "Japan",
+    "Nigeria"
+  ],
+  "likers": [
+    "rogcheng"
+  ],
+  "dislikers": [
+    "gliang"
+  ],
+  "name": "Countries",
+  "ownerEmail": "abc123@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T20:02:08.773Z"
+  },
+  "ownerUsername": "rogcheng",
+  "views": 0,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T19:57:33.640Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:14:08.577Z"
+  },
+  "__v": 3
+},{
+  "_id": {
+    "$oid": "61ae6c9c419bc74850018f5b"
+  },
+  "items": [
+    "Basketball",
+    "Soccer",
+    "Cricket",
+    "Handball",
+    "Tennis"
+  ],
+  "likers": [
+    "gliang"
+  ],
+  "dislikers": [
+    "rogcheng"
+  ],
+  "name": "Sports",
+  "ownerEmail": "abc123@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T20:04:05.590Z"
+  },
+  "ownerUsername": "rogcheng",
+  "views": 0,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T20:03:40.512Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:14:09.503Z"
+  },
+  "__v": 3
+},{
+  "_id": {
+    "$oid": "61ae6cdd419bc74850018ff6"
+  },
+  "items": [
+    "Java",
+    "Swift",
+    "Kotlin",
+    "Perl",
+    "Python"
+  ],
+  "likers": [
+    "rogcheng",
+    "gliang"
+  ],
+  "dislikers": [],
+  "name": "Programming Languages",
+  "ownerEmail": "abc123@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T20:05:11.556Z"
+  },
+  "ownerUsername": "rogcheng",
+  "views": 0,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T20:04:45.923Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:14:10.716Z"
+  },
+  "__v": 3
+},{
+  "_id": {
+    "$oid": "61ae6d0d419bc74850019064"
+  },
+  "items": [
+    "Burritos",
+    "Taco",
+    "Egg",
+    "Steak",
+    "Icecream"
+  ],
+  "likers": [
+    "rogcheng"
+  ],
+  "dislikers": [
+    "gliang"
+  ],
+  "name": "Foods",
+  "ownerEmail": "abc123@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T20:06:01.969Z"
+  },
+  "ownerUsername": "rogcheng",
+  "views": 0,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T20:05:33.424Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:14:12.769Z"
+  },
+  "__v": 3
+},{
+  "_id": {
+    "$oid": "61ae6d2e419bc748500190a4"
+  },
+  "items": [
+    "Paranoid Eyes",
+    "Time",
+    "Shine On You Diamond",
+    "Gunner's Dream",
+    "Comfortably Numb"
+  ],
+  "likers": [
+    "rogcheng"
+  ],
+  "dislikers": [
+    "gliang"
+  ],
+  "name": "Pink Floyd Songs",
+  "ownerEmail": "abc123@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T20:10:53.856Z"
+  },
+  "ownerUsername": "rogcheng",
+  "views": 1,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T20:06:06.274Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:17:21.380Z"
+  },
+  "__v": 3
+},{
+  "_id": {
+    "$oid": "61ae6ed4c413a04b1957f2d6"
+  },
+  "items": [
+    "Steak",
+    "Chicken",
+    "Pig",
+    "Fish",
+    "Tuna"
+  ],
+  "likers": [
+    "gliang"
+  ],
+  "dislikers": [],
+  "name": "Animals to Eat",
+  "ownerEmail": "gliang@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T20:13:46.465Z"
+  },
+  "ownerUsername": "gliang",
+  "views": 0,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T20:13:08.738Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:13:50.159Z"
+  },
+  "__v": 2
+},{
+  "_id": {
+    "$oid": "61ae6f24c413a04b1957f39e"
+  },
+  "items": [
+    "Hong Kong",
+    "Japan",
+    "Spain",
+    "Nigeria",
+    "Alaska"
+  ],
+  "likers": [],
+  "dislikers": [],
+  "name": "Countries",
+  "ownerEmail": "gliang@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T20:15:21.330Z"
+  },
+  "ownerUsername": "gliang",
+  "views": 0,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T20:14:28.708Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:15:21.342Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "61ae6ff7c413a04b1957f486"
+  },
+  "items": [
+    "Python",
+    "Java",
+    "C++",
+    "Perl",
+    "C"
+  ],
+  "likers": [],
+  "dislikers": [
+    "gliang"
+  ],
+  "name": "Programming Languages",
+  "ownerEmail": "gliang@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T20:22:59.290Z"
+  },
+  "ownerUsername": "gliang",
+  "views": 0,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T20:17:59.853Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:33:28.296Z"
+  },
+  "__v": 2
+},{
+  "_id": {
+    "$oid": "61ae702cc413a04b1957f4c8"
+  },
+  "items": [
+    "Echoes",
+    "Wish You Were Here",
+    "Shine On You Diamond",
+    "Learning To Fly",
+    "Time"
+  ],
+  "likers": [],
+  "dislikers": [],
+  "name": "Pink Floyd Songs",
+  "ownerEmail": "gliang@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T20:19:23.364Z"
+  },
+  "ownerUsername": "gliang",
+  "views": 0,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T20:18:52.724Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:19:23.375Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "61ae730cc413a04b1957f6b3"
+  },
+  "items": [
+    "Handball",
+    "Cricket",
+    "Tennis",
+    "Basketball",
+    "Table Tennis"
+  ],
+  "likers": [],
+  "dislikers": [],
+  "name": "Sports",
+  "ownerEmail": "gliang@gmail.com",
+  "datePublished": {
+    "$date": "2021-12-06T20:31:37.532Z"
+  },
+  "ownerUsername": "gliang",
+  "views": 0,
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T20:31:08.749Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:31:37.548Z"
+  },
+  "__v": 1
+}]
