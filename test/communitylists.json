@@ -1,0 +1,401 @@
+[{
+  "_id": {
+    "$oid": "61ae66b8419bc74850018b51"
+  },
+  "likers": [
+    "ajeong"
+  ],
+  "dislikers": [
+    "rogcheng",
+    "gliang"
+  ],
+  "name": "Animals to Eat",
+  "items": [
+    {
+      "_id": {
+        "$oid": "61ae6efec413a04b1957f32f"
+      },
+      "item": "Chicken",
+      "votes": 11
+    },
+    {
+      "_id": {
+        "$oid": "61ae6efec413a04b1957f330"
+      },
+      "item": "Tuna",
+      "votes": 10
+    },
+    {
+      "_id": {
+        "$oid": "61ae6efec413a04b1957f331"
+      },
+      "item": "Cow",
+      "votes": 7
+    },
+    {
+      "_id": {
+        "$oid": "61ae6efec413a04b1957f332"
+      },
+      "item": "Pig",
+      "votes": 6
+    },
+    {
+      "_id": {
+        "$oid": "61ae6efec413a04b1957f333"
+      },
+      "item": "Fish",
+      "votes": 6
+    }
+  ],
+  "views": 3,
+  "datePublished": {
+    "$date": "2021-12-06T20:13:50.176Z"
+  },
+  "comments": [
+    {
+      "_id": {
+        "$oid": "61ae6b0a419bc74850018e7c"
+      },
+      "body": "I also really really like chicken! ",
+      "owner": "rogcheng"
+    },
+    {
+      "_id": {
+        "$oid": "61ae6b0a419bc74850018e7d"
+      },
+      "body": "I think Tuna is the best animal to eat! ",
+      "owner": "rogcheng"
+    }
+  ],
+  "createdAt": {
+    "$date": "2021-12-06T19:38:32.005Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:23:20.039Z"
+  },
+  "__v": 14
+},{
+  "_id": {
+    "$oid": "61ae676c419bc74850018c2c"
+  },
+  "likers": [
+    "ajeong",
+    "rogcheng",
+    "gliang"
+  ],
+  "dislikers": [],
+  "name": "Countries",
+  "items": [
+    {
+      "_id": {
+        "$oid": "61ae6f59c413a04b1957f3de"
+      },
+      "item": "Hong Kong",
+      "votes": 14
+    },
+    {
+      "_id": {
+        "$oid": "61ae6f59c413a04b1957f3df"
+      },
+      "item": "Japan",
+      "votes": 11
+    },
+    {
+      "_id": {
+        "$oid": "61ae6f59c413a04b1957f3e0"
+      },
+      "item": "Korea",
+      "votes": 6
+    },
+    {
+      "_id": {
+        "$oid": "61ae6f59c413a04b1957f3e1"
+      },
+      "item": "China",
+      "votes": 6
+    },
+    {
+      "_id": {
+        "$oid": "61ae6f59c413a04b1957f3e2"
+      },
+      "item": "Nigeria",
+      "votes": 3
+    }
+  ],
+  "views": 7,
+  "datePublished": {
+    "$date": "2021-12-06T20:15:21.357Z"
+  },
+  "comments": [
+    {
+      "_id": {
+        "$oid": "61ae6c7e419bc74850018f1e"
+      },
+      "body": "I wish I could visit all these countries this summer. ",
+      "owner": "rogcheng"
+    }
+  ],
+  "createdAt": {
+    "$date": "2021-12-06T19:41:32.989Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:28:06.156Z"
+  },
+  "__v": 15
+},{
+  "_id": {
+    "$oid": "61ae681c419bc74850018c95"
+  },
+  "likers": [
+    "ajeong",
+    "rogcheng",
+    "gliang"
+  ],
+  "dislikers": [],
+  "name": "Programming Languages",
+  "items": [
+    {
+      "_id": {
+        "$oid": "61ae7398c413a04b1957f729"
+      },
+      "item": "Java",
+      "votes": 13
+    },
+    {
+      "_id": {
+        "$oid": "61ae7398c413a04b1957f72a"
+      },
+      "item": "Python",
+      "votes": 11
+    },
+    {
+      "_id": {
+        "$oid": "61ae7398c413a04b1957f72b"
+      },
+      "item": "Swift",
+      "votes": 7
+    },
+    {
+      "_id": {
+        "$oid": "61ae7398c413a04b1957f72c"
+      },
+      "item": "Kotlin",
+      "votes": 4
+    },
+    {
+      "_id": {
+        "$oid": "61ae7398c413a04b1957f72d"
+      },
+      "item": "Perl",
+      "votes": 4
+    }
+  ],
+  "views": 4,
+  "datePublished": {
+    "$date": "2021-12-06T20:33:28.319Z"
+  },
+  "comments": [
+    {
+      "_id": {
+        "$oid": "61ae68e3419bc74850018d30"
+      },
+      "body": "Python number 1!",
+      "owner": "ajeong"
+    }
+  ],
+  "createdAt": {
+    "$date": "2021-12-06T19:44:28.384Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:33:28.321Z"
+  },
+  "__v": 13
+},{
+  "_id": {
+    "$oid": "61ae68bf419bc74850018ce3"
+  },
+  "likers": [],
+  "dislikers": [
+    "ajeong",
+    "rogcheng",
+    "gliang"
+  ],
+  "name": "Foods",
+  "items": [
+    {
+      "_id": {
+        "$oid": "61ae6f14c413a04b1957f370"
+      },
+      "item": "Icecream",
+      "votes": 6
+    },
+    {
+      "_id": {
+        "$oid": "61ae6f14c413a04b1957f371"
+      },
+      "item": "Steak",
+      "votes": 6
+    },
+    {
+      "_id": {
+        "$oid": "61ae6f14c413a04b1957f372"
+      },
+      "item": "Egg",
+      "votes": 5
+    },
+    {
+      "_id": {
+        "$oid": "61ae6f14c413a04b1957f373"
+      },
+      "item": "Taco",
+      "votes": 5
+    },
+    {
+      "_id": {
+        "$oid": "61ae6f14c413a04b1957f374"
+      },
+      "item": "Burritos",
+      "votes": 5
+    }
+  ],
+  "views": 2,
+  "datePublished": {
+    "$date": "2021-12-06T20:14:12.787Z"
+  },
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T19:47:11.359Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:23:18.778Z"
+  },
+  "__v": 9
+},{
+  "_id": {
+    "$oid": "61ae693b419bc74850018d95"
+  },
+  "likers": [
+    "gliang"
+  ],
+  "dislikers": [
+    "rogcheng"
+  ],
+  "name": "Pink Floyd Songs",
+  "items": [
+    {
+      "_id": {
+        "$oid": "61ae704bc413a04b1957f528"
+      },
+      "item": "Paranoid Eyes",
+      "votes": 8
+    },
+    {
+      "_id": {
+        "$oid": "61ae704bc413a04b1957f529"
+      },
+      "item": "Gunner's Dream",
+      "votes": 7
+    },
+    {
+      "_id": {
+        "$oid": "61ae704bc413a04b1957f52a"
+      },
+      "item": "Time",
+      "votes": 7
+    },
+    {
+      "_id": {
+        "$oid": "61ae704bc413a04b1957f52b"
+      },
+      "item": "Shine On You Diamond",
+      "votes": 7
+    },
+    {
+      "_id": {
+        "$oid": "61ae704bc413a04b1957f52c"
+      },
+      "item": "Comfortably Numb",
+      "votes": 5
+    }
+  ],
+  "views": 4,
+  "datePublished": {
+    "$date": "2021-12-06T20:19:23.401Z"
+  },
+  "comments": [],
+  "createdAt": {
+    "$date": "2021-12-06T19:49:15.793Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:19:31.854Z"
+  },
+  "__v": 13
+},{
+  "_id": {
+    "$oid": "61ae6cb5419bc74850018f98"
+  },
+  "likers": [
+    "gliang"
+  ],
+  "dislikers": [
+    "rogcheng"
+  ],
+  "name": "Sports",
+  "items": [
+    {
+      "_id": {
+        "$oid": "61ae7329c413a04b1957f6fd"
+      },
+      "item": "Basketball",
+      "votes": 7
+    },
+    {
+      "_id": {
+        "$oid": "61ae7329c413a04b1957f6fe"
+      },
+      "item": "Cricket",
+      "votes": 7
+    },
+    {
+      "_id": {
+        "$oid": "61ae7329c413a04b1957f6ff"
+      },
+      "item": "Handball",
+      "votes": 7
+    },
+    {
+      "_id": {
+        "$oid": "61ae7329c413a04b1957f700"
+      },
+      "item": "Soccer",
+      "votes": 4
+    },
+    {
+      "_id": {
+        "$oid": "61ae7329c413a04b1957f701"
+      },
+      "item": "Tennis",
+      "votes": 4
+    }
+  ],
+  "views": 5,
+  "datePublished": {
+    "$date": "2021-12-06T20:31:37.562Z"
+  },
+  "comments": [
+    {
+      "_id": {
+        "$oid": "61ae71ecc413a04b1957f65c"
+      },
+      "body": "I can't believe handball isn't on top 😢",
+      "owner": "gliang"
+    }
+  ],
+  "createdAt": {
+    "$date": "2021-12-06T20:04:05.629Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:31:45.716Z"
+  },
+  "__v": 13
+}]

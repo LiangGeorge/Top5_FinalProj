@@ -1,0 +1,49 @@
+[{
+  "_id": {
+    "$oid": "61ae639b419bc74850018a0a"
+  },
+  "firstName": "Alexandra",
+  "lastName": "Jeong",
+  "email": "a@gmail.com",
+  "passwordHash": "$2a$10$0akDif32Ni62jIHi0hBsnOtOfEluKfec/e1P49I6jebUZ/6XiHvv2",
+  "username": "ajeong",
+  "createdAt": {
+    "$date": "2021-12-06T19:25:15.989Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T19:25:15.989Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61ae6a4d419bc74850018df5"
+  },
+  "firstName": "Roger",
+  "lastName": "Cheng",
+  "email": "abc123@gmail.com",
+  "passwordHash": "$2a$10$p7noL6XkUTy.R7JdUuPhcOWFnGZE6JUawmyw8WUgHBF9Uc6rhC8IC",
+  "username": "rogcheng",
+  "createdAt": {
+    "$date": "2021-12-06T19:53:49.666Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T19:53:49.666Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61ae6ecac413a04b1957f2cc"
+  },
+  "firstName": "George",
+  "lastName": "Liang",
+  "email": "gliang@gmail.com",
+  "passwordHash": "$2a$10$Cn/9sogvC1l3DmSOg6Uw9OJHOGCecZpb8bjhG/BKG1wa70HK6HOBK",
+  "username": "gliang",
+  "createdAt": {
+    "$date": "2021-12-06T20:12:58.968Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-06T20:12:58.968Z"
+  },
+  "__v": 0
+}]
